@@ -7,9 +7,8 @@ export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: ttt.makeGrid(3),
-      clickedValue: '',
-      gridSize: 3,
+      grid: ttt.makeGrid(props.gridSize),
+      gridSize: props.gridSize,
     };
   }
 

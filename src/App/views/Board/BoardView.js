@@ -5,6 +5,6 @@ import {Grid} from './Grid';
 
 export class BoardView extends Component {
   render() {
-    return <Grid />;
+    return <Grid gridSize="3" />;
   }
 }
