@@ -7,3 +7,7 @@ export const makeGrid = gridSize => {
   }
   return newGrid;
 };
+
+export const compute = move => {
+  return 'ongoing';
+};
