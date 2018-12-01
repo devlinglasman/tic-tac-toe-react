@@ -8,15 +8,24 @@ export class BoardView extends Component {
     super(props);
     this.state = {
       grid: ttt.makeGrid(3),
+      clickedValue: '',
     };
   }
 
   renderTile = idNumber => {
     return (
-      <button className="tile" key={idNumber}>
+      <button
+        className="tile"
+        key={idNumber}
+        value={idNumber}
+        onClick={this.handleClick}>
         {idNumber}
       </button>
     );
+  };
+
+  handleClick = event => {
+    this.setState({clickedValue: event.target.value});
   };
 
   renderRow = (rowNumber, gridSize) => {
@@ -34,6 +43,7 @@ export class BoardView extends Component {
   };
 
   formatGrid = grid => {
+    console.log(this.state.clickedValue);
     const gridSize = Math.sqrt(grid.length);
     let formattedGrid = [];
     for (let i = 0; i < gridSize; i++) {
