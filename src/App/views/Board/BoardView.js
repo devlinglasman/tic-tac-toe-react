@@ -12,30 +12,37 @@ export class BoardView extends Component {
   }
 
   renderTile = idNumber => {
-    return <button className="tile">{idNumber}</button>;
+    return (
+      <button className="tile" key={idNumber}>
+        {idNumber}
+      </button>
+    );
   };
 
-  renderRow = () => {
+  renderRow = (rowNumber, gridSize) => {
+    let rows = [];
+    for (let i = 1; i <= gridSize; i++) {
+      let multiplier = rowNumber * gridSize;
+      rows.push(this.renderTile(i + multiplier));
+    }
+    let rowId = `row${rowNumber + 1}`;
     return (
-      <div className="row1">
-        <div className="tile">
-          {this.renderTile(1)}
-          {this.renderTile(1)}
-          {this.renderTile(1)}
-        </div>
+      <div className={rowId} key={rowId}>
+        {rows}
       </div>
     );
   };
 
-  formatGrid = grid => {};
+  formatGrid = grid => {
+    const gridSize = Math.sqrt(grid.length);
+    let formattedGrid = [];
+    for (let i = 0; i < gridSize; i++) {
+      formattedGrid.push(this.renderRow(i, gridSize));
+    }
+    return <div className="grid">{formattedGrid}</div>;
+  };
 
   render() {
-    return (
-      <div className="grid">
-        <div className="row1">{this.renderRow()}</div>
-        <div className="row2">{this.renderRow()}</div>
-        <div className="row3">{this.renderRow()}</div>
-      </div>
-    );
+    return this.formatGrid(this.state.grid);
   }
 }
