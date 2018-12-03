@@ -5,7 +5,7 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({adapter: new Adapter()});
 import {Grid} from './Grid';
-import {Game} from './Core/Game';
+import {Game} from '../Core/Game';
 
 it('should render a formatted grid', () => {
   const game = new Game(3);
