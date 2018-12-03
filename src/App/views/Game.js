@@ -4,6 +4,7 @@ export class Game {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.tiles = this.createTiles(gridSize);
+    this.ongoing = true;
     this.playerOneTurn = true;
   }
 

@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import {Switch, BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {BoardView} from './views/BoardView';
+import {PlayGameView} from './views/PlayGameView';
 
 class App extends Component {
   render() {
@@ -12,7 +12,7 @@ class App extends Component {
         <Router>
           <Switch>
             <div>
-              <Route exact path="/" component={BoardView} />
+              <Route exact path="/" component={PlayGameView} />
             </div>
           </Switch>
         </Router>

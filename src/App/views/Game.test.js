@@ -20,7 +20,7 @@ describe('Game', () => {
   });
 
   describe('computeMove', () => {
-    it('places X mark if playerOneTurn', () => {
+    it('places Player One mark if playerOneTurn', () => {
       const game = new Game(3);
 
       game.computeMove(0);
@@ -29,7 +29,7 @@ describe('Game', () => {
       expect(game.tiles).toEqual(expectedGrid3x3);
     });
 
-    it('places O mark if playerOneTurn', () => {
+    it('places Player Two mark if not playerOneTurn', () => {
       const game = new Game(3);
 
       game.computeMove(0);
@@ -37,6 +37,12 @@ describe('Game', () => {
 
       const expectedGrid3x3 = ['X', 'O', '', '', '', '', '', '', ''];
       expect(game.tiles).toEqual(expectedGrid3x3);
+    });
+
+    it('makes ongoing false if board full', () => {
+      const game = new Game(3);
+
+      expect(game.ongoing).toBeFalsy();
     });
   });
 });
