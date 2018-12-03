@@ -11,12 +11,16 @@ export class Game {
     this.playerOneTurn = true;
   }
 
-  computeMove = move => {
+  playTurn = move => {
     if (this.playerOneTurn) {
       this.board.placeMark(P1, move);
     } else {
       this.board.placeMark(P2, move);
     }
-    this.playerOneTurn = !this.playerOneTurn;
+    if (this.board.full()) {
+      this.ongoing = false;
+    } else {
+      this.playerOneTurn = !this.playerOneTurn;
+    }
   };
 }

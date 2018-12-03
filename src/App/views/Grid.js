@@ -14,8 +14,10 @@ export class Grid extends Component {
   }
 
   handleClick = event => {
-    this.state.game.computeMove(event.target.value);
-    this.setState({tiles: this.state.game.board.tiles});
+    this.state.game.playTurn(event.target.value);
+    this.setState({
+      tiles: this.state.game.board.tiles,
+    });
   };
 
   renderTile = idNumber => {
@@ -54,11 +56,24 @@ export class Grid extends Component {
     );
   };
 
+  gameMessage = () => {
+    if (this.state.game.ongoing) {
+      return <p>Please select a tile</p>;
+    } else {
+      return <p>It was a tie!</p>;
+    }
+  };
+
   render() {
     let formattedGrid = [];
     for (let i = 0; i < this.state.gridSize; i++) {
       formattedGrid.push(this.renderRow(i));
     }
-    return <div className="tiles">{formattedGrid}</div>;
+    return (
+      <div>
+        {this.gameMessage()}
+        <div className="tiles">{formattedGrid}</div>
+      </div>
+    );
   }
 }

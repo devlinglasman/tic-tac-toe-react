@@ -55,7 +55,7 @@ describe('Board', () => {
     it('returns false if board not full', () => {
       const board = new Board(2);
 
-      expect(board.full()).toBeFalsy();
+      expect(board.full()).toBe(false);
     });
 
     it('returns true if board full', () => {
@@ -66,7 +66,7 @@ describe('Board', () => {
       board.placeMark(P1, 2);
       board.placeMark(P1, 3);
 
-      expect(board.full()).toBeTruthy();
+      expect(board.full()).toBe(true);
     });
   });
 });

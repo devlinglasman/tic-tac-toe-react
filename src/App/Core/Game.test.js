@@ -4,11 +4,11 @@ import {Game} from './Game';
 import {EMPTY, P1, P2} from '../Constants';
 
 describe('Game', () => {
-  describe('computeMove', () => {
+  describe('playTurn', () => {
     it('places Player One mark if playerOneTurn', () => {
       const game = new Game(3);
 
-      game.computeMove(0);
+      game.playTurn(0);
 
       const expectedGrid = [
         P1,
@@ -27,8 +27,8 @@ describe('Game', () => {
     it('places Player Two mark if not playerOneTurn', () => {
       const game = new Game(3);
 
-      game.computeMove(0);
-      game.computeMove(1);
+      game.playTurn(0);
+      game.playTurn(1);
 
       const expectedGrid = [
         P1,
@@ -42,6 +42,17 @@ describe('Game', () => {
         EMPTY,
       ];
       expect(game.board.tiles).toEqual(expectedGrid);
+    });
+
+    it('is no longer ongoing if board is full', () => {
+      const game = new Game(2);
+
+      game.playTurn(0);
+      game.playTurn(1);
+      game.playTurn(2);
+      game.playTurn(3);
+
+      expect(game.ongoing).toBe(false);
     });
   });
 });
