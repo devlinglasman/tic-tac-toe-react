@@ -1,13 +1,20 @@
 //@format
 
-export const makeGrid = gridSize => {
-  let newGrid = [];
-  for (let i = 0; i < gridSize * gridSize; i++) {
-    newGrid.push('');
+export class Game {
+  constructor(gridSize) {
+    this.gridSize = gridSize;
+    this.grid = this.makeGrid(gridSize);
   }
-  return newGrid;
-};
 
-export const compute = move => {
-  return 'ongoing';
-};
+  makeGrid = gridSize => {
+    let newGrid = [];
+    for (let i = 0; i < gridSize * gridSize; i++) {
+      newGrid.push('');
+    }
+    return newGrid;
+  };
+
+  computeMove = move => {
+    this.grid[move] = 'X';
+  };
+}
