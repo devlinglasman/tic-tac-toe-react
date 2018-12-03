@@ -1,5 +1,7 @@
 //@format
 
+import {EMPTY, P1, P2} from '../Constants';
+
 export class Board {
   constructor(gridSize) {
     this.gridSize = gridSize;
@@ -9,7 +11,7 @@ export class Board {
   createTiles = gridSize => {
     let newTiles = [];
     for (let i = 0; i < gridSize * gridSize; i++) {
-      newTiles.push('');
+      newTiles.push(EMPTY);
     }
     return newTiles;
   };

@@ -1,6 +1,7 @@
 //@format
 
 import {Board} from './Board';
+import {EMPTY, P1, P2} from '../Constants';
 
 export class Game {
   constructor(gridSize) {
@@ -12,9 +13,9 @@ export class Game {
 
   computeMove = move => {
     if (this.playerOneTurn) {
-      this.board.placeMark('X', move);
+      this.board.placeMark(P1, move);
     } else {
-      this.board.placeMark('O', move);
+      this.board.placeMark(P2, move);
     }
     this.playerOneTurn = !this.playerOneTurn;
   };

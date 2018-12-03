@@ -1,6 +1,7 @@
 //@format
 
 import React, {Component} from 'react';
+import {EMPTY, P1, P2} from '../Constants';
 
 export class Grid extends Component {
   constructor(props) {
@@ -20,10 +21,12 @@ export class Grid extends Component {
   renderTile = idNumber => {
     const actualMark = this.state.tiles[idNumber];
     let representedMark;
-    if (actualMark === '') {
+    if (actualMark === EMPTY) {
       representedMark = idNumber;
+    } else if (actualMark === P1) {
+      representedMark = 'X';
     } else {
-      representedMark = actualMark;
+      representedMark = 'O';
     }
 
     return (

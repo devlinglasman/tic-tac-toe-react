@@ -1,6 +1,7 @@
 //@format
 
 import {Game} from './Game';
+import {EMPTY, P1, P2} from '../Constants';
 
 describe('Game', () => {
   describe('computeMove', () => {
@@ -9,8 +10,18 @@ describe('Game', () => {
 
       game.computeMove(0);
 
-      const expectedGrid3x3 = ['X', '', '', '', '', '', '', '', ''];
-      expect(game.board.tiles).toEqual(expectedGrid3x3);
+      const expectedGrid = [
+        P1,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+      ];
+      expect(game.board.tiles).toEqual(expectedGrid);
     });
 
     it('places Player Two mark if not playerOneTurn', () => {
@@ -19,8 +30,18 @@ describe('Game', () => {
       game.computeMove(0);
       game.computeMove(1);
 
-      const expectedGrid3x3 = ['X', 'O', '', '', '', '', '', '', ''];
-      expect(game.board.tiles).toEqual(expectedGrid3x3);
+      const expectedGrid = [
+        P1,
+        P2,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+      ];
+      expect(game.board.tiles).toEqual(expectedGrid);
     });
   });
 });
