@@ -8,13 +8,13 @@ export class Grid extends Component {
     this.state = {
       game: props.game,
       gridSize: props.game.gridSize,
-      tiles: props.game.tiles,
+      tiles: props.game.board.tiles,
     };
   }
 
   handleClick = event => {
     this.state.game.computeMove(event.target.value);
-    this.setState({tiles: this.state.game.tiles});
+    this.setState({tiles: this.state.game.board.tiles});
   };
 
   renderTile = idNumber => {

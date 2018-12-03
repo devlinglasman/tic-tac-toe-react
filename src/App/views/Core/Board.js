@@ -1,11 +1,9 @@
 //@format
 
-export class Game {
+export class Board {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.tiles = this.createTiles(gridSize);
-    this.ongoing = true;
-    this.playerOneTurn = true;
   }
 
   createTiles = gridSize => {
@@ -16,12 +14,7 @@ export class Game {
     return newTiles;
   };
 
-  computeMove = move => {
-    if (this.playerOneTurn) {
-      this.tiles[move] = 'X';
-    } else {
-      this.tiles[move] = 'O';
-    }
-    this.playerOneTurn = !this.playerOneTurn;
+  placeMark = (mark, position) => {
+    this.tiles[position] = mark;
   };
 }
