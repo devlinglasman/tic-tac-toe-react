@@ -1,7 +1,6 @@
 //@format
 
 import React, {Component} from 'react';
-import * as ttt from './ttt';
 
 export class Grid extends Component {
   constructor(props) {
@@ -9,18 +8,17 @@ export class Grid extends Component {
     this.state = {
       game: props.game,
       gridSize: props.game.gridSize,
-      grid: props.game.makeGrid,
-      updateGameMessage: props.updateGameMessage,
+      tiles: props.game.tiles,
     };
   }
 
   handleClick = event => {
     this.state.game.computeMove(event.target.value);
-    this.setState({grid: this.state.game.grid});
+    this.setState({tiles: this.state.game.tiles});
   };
 
   renderTile = idNumber => {
-    const actualMark = this.state.grid[idNumber];
+    const actualMark = this.state.tiles[idNumber];
     let representedMark;
     if (actualMark === '') {
       representedMark = idNumber;
@@ -58,6 +56,6 @@ export class Grid extends Component {
     for (let i = 0; i < this.state.gridSize; i++) {
       formattedGrid.push(this.renderRow(i));
     }
-    return <div className="grid">{formattedGrid}</div>;
+    return <div className="tiles">{formattedGrid}</div>;
   }
 }

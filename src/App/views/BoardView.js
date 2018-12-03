@@ -2,19 +2,15 @@
 
 import React, {Component} from 'react';
 import {Grid} from './Grid';
-import {Game} from './ttt';
+import {Game} from './Game';
 
 export class BoardView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const game = new Game(3);
 
     return (
       <div className="PlayGame">
-        <Grid game={game} updateGameMessage={this.gameMessage} />
+        <Grid game={game} />
       </div>
     );
   }
