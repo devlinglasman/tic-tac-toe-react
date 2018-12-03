@@ -22,7 +22,7 @@ export class Grid extends Component {
     const actualMark = this.state.tiles[idNumber];
     let representedMark;
     if (actualMark === EMPTY) {
-      representedMark = idNumber;
+      representedMark = idNumber + 1;
     } else if (actualMark === P1) {
       representedMark = 'X';
     } else {
@@ -42,7 +42,7 @@ export class Grid extends Component {
 
   renderRow = rowNumber => {
     let rows = [];
-    for (let i = 1; i <= this.state.gridSize; i++) {
+    for (let i = 0; i < this.state.gridSize; i++) {
       let multiplier = rowNumber * this.state.gridSize;
       rows.push(this.renderTile(i + multiplier));
     }
