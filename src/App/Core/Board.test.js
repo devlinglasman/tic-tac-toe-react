@@ -50,4 +50,23 @@ describe('Board', () => {
       expect(board.tiles).toEqual(expectedBoard);
     });
   });
+
+  describe('full', () => {
+    it('returns false if board not full', () => {
+      const board = new Board(2);
+
+      expect(board.full()).toBeFalsy();
+    });
+
+    it('returns true if board full', () => {
+      const board = new Board(2);
+
+      board.placeMark(P1, 0);
+      board.placeMark(P1, 1);
+      board.placeMark(P1, 2);
+      board.placeMark(P1, 3);
+
+      expect(board.full()).toBeTruthy();
+    });
+  });
 });
