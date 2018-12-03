@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import {Switch, BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {BoardView} from './views/Board/BoardView';
+import {BoardView} from './views/BoardView';
 
 class App extends Component {
   render() {
