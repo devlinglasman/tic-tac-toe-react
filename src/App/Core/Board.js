@@ -23,4 +23,6 @@ export class Board {
   full = () => {
     return !this.tiles.includes(EMPTY);
   };
+
+  won = player => {};
 }

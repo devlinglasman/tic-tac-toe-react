@@ -69,4 +69,22 @@ describe('Board', () => {
       expect(board.full()).toBe(true);
     });
   });
+
+  //  describe('won', () => {
+  //    it('returns false if board not won', () => {
+  //      const board = new Board(2);
+  //
+  //      expect(board.won(P1)).toBe(false);
+  //    });
+  //
+  //    it('returns true if board won by player', () => {
+  //      const board = new Board(3);
+  //
+  //      board.placeMark(P1, 0);
+  //      board.placeMark(P1, 1);
+  //      board.placeMark(P1, 2);
+  //
+  //      expect(board.won(P1)).toBe(true);
+  //    });
+  //  });
 });
