@@ -2,9 +2,9 @@
 
 export class Game {
   constructor(gridSize) {
-    this.ongoing = true;
     this.gridSize = gridSize;
     this.tiles = this.createTiles(gridSize);
+    this.playerOneTurn = true;
   }
 
   createTiles = gridSize => {
@@ -16,6 +16,11 @@ export class Game {
   };
 
   computeMove = move => {
-    this.tiles[move] = 'X';
+    if (this.playerOneTurn) {
+      this.tiles[move] = 'X';
+    } else {
+      this.tiles[move] = 'O';
+    }
+    this.playerOneTurn = !this.playerOneTurn;
   };
 }
