@@ -2,23 +2,87 @@
 
 import {EMPTY, P1, P2} from '../Constants';
 
-export const didItWin = (board, player) => {
-  const topRow = [0, 1, 2];
-  const midRow = [3, 4, 5];
-  const botRow = [6, 7, 8];
-  const allRows = [topRow, midRow, botRow];
-
-  const analyseLines = (pos1, pos2, pos3) => {
-    return (
-      board[pos1] === player && board[pos2] === player && board[pos3] === player
-    );
-  };
-
-  for (let i = 0; i < 3; i++) {
-    if (analyseLines(allRows[i][0], allRows[i][1], allRows[i][2])) {
-      return true;
-    }
+export class BoardWinAnalyser {
+  constructor(board, player) {
+    this.board = board;
+    this.player = player;
+    this.gridSize = Math.sqrt(board.length);
   }
 
-  return false;
-};
+  anyLineIsWinning = () => {
+    const allLines = this.getAllRowIndices()
+      .concat(this.getAllColIndices())
+      .concat(this.getBothDiagIndices());
+
+    for (let i = 0; i < allLines.length; i++) {
+      if (this.lineIsWinning(allLines[i])) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  lineIsWinning = line => {
+    for (let i = 0; i < line.length; i++) {
+      if (!(this.board[line[i]] === this.player)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  getAllRowIndices = () => {
+    let allRowIndices = [];
+    for (let i = 0; i < this.board.length; i += this.gridSize) {
+      allRowIndices.push(this.getOneRowIndices(i));
+    }
+    return allRowIndices;
+  };
+
+  getOneRowIndices = beginningNumber => {
+    let set = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      set.push(beginningNumber);
+      beginningNumber++;
+    }
+    return set;
+  };
+
+  getAllColIndices = () => {
+    let allColIndices = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      allColIndices.push(this.getOneColIndices(i));
+    }
+    return allColIndices;
+  };
+
+  getOneColIndices = beginningNumber => {
+    let set = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      set.push(beginningNumber);
+      beginningNumber += this.gridSize;
+    }
+    return set;
+  };
+
+  getBothDiagIndices = () => {
+    return [this.getFirstDiagIndices(), this.getSecondDiagIndices()];
+  };
+
+  getFirstDiagIndices = () => {
+    let set = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      set.push(i * this.gridSize + i);
+    }
+    return set;
+  };
+
+  getSecondDiagIndices = () => {
+    let set = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      let workingNumber = i + 1;
+      set.push(workingNumber * this.gridSize - workingNumber);
+    }
+    return set;
+  };
+}
