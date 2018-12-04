@@ -7,21 +7,30 @@ export class Game {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
-    this.ongoing = true;
     this.playerOneTurn = true;
   }
 
   playTurn = move => {
+    this.makeMove(move);
+    if (!this.finished()) {
+      this.switchPlayer();
+    }
+  };
+
+  makeMove = move => {
     if (this.playerOneTurn) {
       this.board.placeMark(P1, move);
     } else {
       this.board.placeMark(P2, move);
     }
-    if (this.board.full() || this.won()) {
-      this.ongoing = false;
-    } else {
-      this.playerOneTurn = !this.playerOneTurn;
-    }
+  };
+
+  finished = () => {
+    return this.board.full() || this.won();
+  };
+
+  switchPlayer = () => {
+    this.playerOneTurn = !this.playerOneTurn;
   };
 
   won = () => {
