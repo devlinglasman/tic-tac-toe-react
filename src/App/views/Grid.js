@@ -14,10 +14,12 @@ export class Grid extends Component {
   }
 
   handleClick = event => {
-    this.state.game.playTurn(event.target.value);
-    this.setState({
-      tiles: this.state.game.board.tiles,
-    });
+    if (!this.state.game.finished()) {
+      this.state.game.playTurn(event.target.value);
+      this.setState({
+        tiles: this.state.game.board.tiles,
+      });
+    }
   };
 
   renderTile = idNumber => {
