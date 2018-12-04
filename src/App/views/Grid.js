@@ -57,8 +57,14 @@ export class Grid extends Component {
   };
 
   gameMessage = () => {
-    if (this.state.game.ongoing) {
+    if (!this.state.game.finished()) {
       return <p>Please select a tile</p>;
+    } else if (this.state.game.won()) {
+      if (this.state.game.playerOneTurn) {
+        return <p>Player 1 won!</p>;
+      } else {
+        return <p>Player 2 won!</p>;
+      }
     } else {
       return <p>It was a tie!</p>;
     }
