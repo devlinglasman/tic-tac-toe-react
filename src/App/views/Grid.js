@@ -10,6 +10,7 @@ export class Grid extends Component {
       game: props.game,
       gridSize: props.game.gridSize,
       tiles: props.game.board.tiles,
+      checkFinished: props.checkFinished,
     };
   }
 
@@ -19,6 +20,7 @@ export class Grid extends Component {
       this.setState({
         tiles: this.state.game.board.tiles,
       });
+      this.state.checkFinished();
     }
   };
 
@@ -58,20 +60,6 @@ export class Grid extends Component {
     );
   };
 
-  gameMessage = () => {
-    if (!this.state.game.finished()) {
-      return <p>Please select a tile</p>;
-    } else if (this.state.game.won()) {
-      if (this.state.game.playerOneTurn) {
-        return <p>Player 1 won!</p>;
-      } else {
-        return <p>Player 2 won!</p>;
-      }
-    } else {
-      return <p>It was a tie!</p>;
-    }
-  };
-
   render() {
     let formattedGrid = [];
     for (let i = 0; i < this.state.gridSize; i++) {
@@ -79,7 +67,6 @@ export class Grid extends Component {
     }
     return (
       <div>
-        {this.gameMessage()}
         <div className="tiles">{formattedGrid}</div>
       </div>
     );

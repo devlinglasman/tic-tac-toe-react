@@ -11,9 +11,11 @@ export class Game {
   }
 
   playTurn = move => {
-    this.makeMove(move);
-    if (!this.finished()) {
-      this.switchPlayer();
+    if (this.board.freeTile(move)) {
+      this.makeMove(move);
+      if (!this.finished()) {
+        this.switchPlayer();
+      }
     }
   };
 

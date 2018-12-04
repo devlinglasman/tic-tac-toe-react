@@ -29,4 +29,8 @@ export class Board {
     const bWA = new BoardWinAnalyser(this.tiles, player);
     return bWA.anyLineIsWinning();
   };
+
+  freeTile = move => {
+    return this.tiles[move] === EMPTY;
+  };
 }

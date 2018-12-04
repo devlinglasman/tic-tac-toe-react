@@ -22,6 +22,15 @@ describe('Game', () => {
       expect(game.board.tiles).toEqual(gridWithP1AndP2Mark);
     });
 
+    it('does not place mark if tile already marked', () => {
+      const game = new Game(3);
+
+      game.playTurn(0);
+      game.playTurn(0);
+
+      expect(game.board.tiles[0]).toEqual(P1);
+    });
+
     it('switches active player', () => {
       const game = new Game(2);
 

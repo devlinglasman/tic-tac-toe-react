@@ -97,4 +97,20 @@ describe('Board', () => {
       expect(board.won(P2)).toBe(true);
     });
   });
+
+  describe('freeTile', () => {
+    it('returns true if tile freeTile', () => {
+      const board = new Board(3);
+
+      expect(board.freeTile(0)).toBe(true);
+    });
+
+    it('returns false if tile occupied', () => {
+      const board = new Board(3);
+
+      board.placeMark(P1, 0);
+
+      expect(board.freeTile(0)).toBe(false);
+    });
+  });
 });
