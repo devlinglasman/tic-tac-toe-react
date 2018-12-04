@@ -54,5 +54,30 @@ describe('Game', () => {
 
       expect(game.ongoing).toBe(false);
     });
+
+    describe('won', () => {
+      it('returns true if board won by P1', () => {
+        const game = new Game(2);
+
+        game.playTurn(0);
+        game.playTurn(1);
+        game.playTurn(2);
+
+        expect(game.won()).toBe(true);
+      });
+
+      it('returns true if board won by P2', () => {
+        const game = new Game(3);
+
+        game.playTurn(0);
+        game.playTurn(1);
+        game.playTurn(2);
+        game.playTurn(4);
+        game.playTurn(5);
+        game.playTurn(7);
+
+        expect(game.won()).toBe(true);
+      });
+    });
   });
 });

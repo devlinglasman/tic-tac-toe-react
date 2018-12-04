@@ -17,10 +17,18 @@ export class Game {
     } else {
       this.board.placeMark(P2, move);
     }
-    if (this.board.full()) {
+    if (this.board.full() || this.won()) {
       this.ongoing = false;
     } else {
       this.playerOneTurn = !this.playerOneTurn;
+    }
+  };
+
+  won = () => {
+    if (this.playerOneTurn) {
+      return this.board.won(P1);
+    } else {
+      return this.board.won(P2);
     }
   };
 }
