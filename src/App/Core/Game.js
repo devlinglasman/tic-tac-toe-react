@@ -17,7 +17,7 @@ export class Game {
     }
   };
 
-  inputValid = move => {
+  tileFree = move => {
     return this.board.freeTile(move);
   };
 

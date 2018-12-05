@@ -40,15 +40,13 @@ export class PlayGameView extends Component {
     }
   };
 
-  checkFinished = () => {
+  markFinished = () => {
     this.setState({
       tileTaken: false,
     });
-    if (this.state.game.finished()) {
-      this.setState({
-        isFinished: true,
-      });
-    }
+    this.setState({
+      isFinished: true,
+    });
   };
 
   render() {
@@ -58,7 +56,7 @@ export class PlayGameView extends Component {
         {this.tileTakenMessage()}
         <Grid
           game={this.state.game}
-          checkFinished={this.checkFinished}
+          markFinished={this.markFinished}
           tileTaken={this.tileTaken}
         />
       </div>

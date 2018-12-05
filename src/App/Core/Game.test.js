@@ -22,15 +22,6 @@ describe('Game', () => {
       expect(game.board.tiles).toEqual(gridWithP1AndP2Mark);
     });
 
-    it('does not place mark if tile already marked', () => {
-      const game = new Game(3);
-
-      game.playTurn(0);
-      game.playTurn(0);
-
-      expect(game.board.tiles[0]).toEqual(P1);
-    });
-
     it('switches active player', () => {
       const game = new Game(2);
 
@@ -55,6 +46,22 @@ describe('Game', () => {
       game.playTurn(2);
 
       expect(game.finished()).toBe(true);
+    });
+  });
+
+  describe('tileFree', () => {
+    it('returns true if tile free', () => {
+      const game = new Game(3);
+
+      expect(game.tileFree(0)).toBe(true);
+    });
+
+    it('returns false if tile not free', () => {
+      const game = new Game(3);
+
+      game.playTurn(0);
+
+      expect(game.tileFree(0)).toBe(false);
     });
   });
 
