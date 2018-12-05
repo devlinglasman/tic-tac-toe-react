@@ -11,12 +11,14 @@ export class Game {
   }
 
   playTurn = move => {
-    if (this.board.freeTile(move)) {
-      this.makeMove(move);
-      if (!this.finished()) {
-        this.switchPlayer();
-      }
+    this.makeMove(move);
+    if (!this.finished()) {
+      this.switchPlayer();
     }
+  };
+
+  inputValid = move => {
+    return this.board.freeTile(move);
   };
 
   makeMove = move => {

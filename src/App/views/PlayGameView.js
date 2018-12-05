@@ -10,6 +10,7 @@ export class PlayGameView extends Component {
     this.state = {
       game: new Game(3),
       isFinished: false,
+      tileTaken: false,
     };
   }
 
@@ -27,7 +28,22 @@ export class PlayGameView extends Component {
     }
   };
 
+  tileTaken = () => {
+    this.setState({
+      tileTaken: true,
+    });
+  };
+
+  tileTakenMessage = () => {
+    if (this.state.tileTaken) {
+      return <p>Oops, that ones taken!</p>;
+    }
+  };
+
   checkFinished = () => {
+    this.setState({
+      tileTaken: false,
+    });
     if (this.state.game.finished()) {
       this.setState({
         isFinished: true,
@@ -39,7 +55,12 @@ export class PlayGameView extends Component {
     return (
       <div className="PlayGame">
         {this.gameMessage()}
-        <Grid game={this.state.game} checkFinished={this.checkFinished} />
+        {this.tileTakenMessage()}
+        <Grid
+          game={this.state.game}
+          checkFinished={this.checkFinished}
+          tileTaken={this.tileTaken}
+        />
       </div>
     );
   }

@@ -11,16 +11,21 @@ export class Grid extends Component {
       gridSize: props.game.gridSize,
       tiles: props.game.board.tiles,
       checkFinished: props.checkFinished,
+      tileTaken: props.tileTaken,
     };
   }
 
   handleClick = event => {
     if (!this.state.game.finished()) {
-      this.state.game.playTurn(event.target.value);
-      this.setState({
-        tiles: this.state.game.board.tiles,
-      });
-      this.state.checkFinished();
+      if (this.state.game.inputValid(event.target.value)) {
+        this.state.game.playTurn(event.target.value);
+        this.setState({
+          tiles: this.state.game.board.tiles,
+        });
+        this.state.checkFinished();
+      } else {
+        this.state.tileTaken();
+      }
     }
   };
 
