@@ -40,14 +40,15 @@ export class PlayGameView extends Component {
 
   tileTakenMessage = () => {
     if (this.state.tileTaken) {
-      return <p>Oops, that ones taken!</p>;
+      return <p>Oops, that one's taken!</p>;
     }
   };
 
+  resetTileTaken = () => {
+    this.setState({tileTaken: false});
+  };
+
   markFinished = () => {
-    this.setState({
-      tileTaken: false,
-    });
     this.setState({
       isFinished: true,
     });
@@ -63,6 +64,7 @@ export class PlayGameView extends Component {
           game={this.state.game}
           markFinished={this.markFinished}
           tileTaken={this.tileTaken}
+          resetTileTaken={this.resetTileTaken}
         />
       </div>
     );

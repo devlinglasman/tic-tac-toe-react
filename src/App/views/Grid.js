@@ -14,12 +14,14 @@ export class Grid extends Component {
       tiles: props.game.board.tiles,
       markFinished: props.markFinished,
       tileTaken: props.tileTaken,
+      resetTileTaken: props.resetTileTaken,
     };
   }
 
   runHvHGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
+    this.state.resetTileTaken();
     if (this.state.game.isFinished()) {
       this.state.markFinished();
     } else {
@@ -30,6 +32,7 @@ export class Grid extends Component {
   runHvDCGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
+    this.state.resetTileTaken();
     if (this.state.game.isFinished()) {
       this.state.markFinished();
     } else {
