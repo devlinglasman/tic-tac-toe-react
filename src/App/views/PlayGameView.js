@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {Grid} from './Grid';
 import {Game} from '../Core/Game';
 import {EMPTY, P1, P2} from '../Constants';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 export class PlayGameView extends Component {
   constructor(props) {
@@ -54,6 +55,16 @@ export class PlayGameView extends Component {
     });
   };
 
+  backToWelcome = () => {
+    if (this.state.isFinished) {
+      return (
+        <button>
+          <Link to="/">Choose Again</Link>
+        </button>
+      );
+    }
+  };
+
   render() {
     return (
       <div className="PlayGame">
@@ -66,6 +77,7 @@ export class PlayGameView extends Component {
           tileTaken={this.tileTaken}
           resetTileTaken={this.resetTileTaken}
         />
+        {this.backToWelcome()}
       </div>
     );
   }
