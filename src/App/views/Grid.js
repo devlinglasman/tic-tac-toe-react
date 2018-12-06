@@ -16,16 +16,25 @@ export class Grid extends Component {
     };
   }
 
+  nextTurn = tilePicked => {
+    this.state.game.makeHumanMove(tilePicked);
+    this.setState({tiles: this.state.tiles});
+    if (this.state.game.isFinished()) {
+      this.state.markFinished();
+    } else {
+      this.state.game.makeCompMove();
+      this.setState({tiles: this.state.tiles});
+      if (this.state.game.isFinished()) {
+        this.state.markFinished();
+      }
+    }
+  };
+
   handleClick = event => {
-    if (!this.state.game.finished()) {
-      if (this.state.game.tileFree(event.target.value)) {
-        this.state.game.playTurn(event.target.value);
-        this.setState({
-          tiles: this.state.game.board.tiles,
-        });
-        if (this.state.game.finished()) {
-          this.state.markFinished();
-        }
+    const tilePicked = event.target.value;
+    if (!this.state.game.isFinished()) {
+      if (this.state.game.isTileFree(tilePicked)) {
+        this.nextTurn(tilePicked);
       } else {
         this.state.tileTaken();
       }

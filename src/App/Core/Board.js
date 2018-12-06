@@ -33,4 +33,8 @@ export class Board {
   freeTile = move => {
     return this.tiles[move] === EMPTY;
   };
+
+  boardLength = () => {
+    return this.tiles.length;
+  };
 }

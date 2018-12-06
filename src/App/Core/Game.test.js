@@ -30,7 +30,7 @@ describe('Game', () => {
       expect(game.playerOneTurn).toBe(false);
     });
 
-    it('switches active player if game not finished', () => {
+    it('switches active player if game not isFinished', () => {
       const game = new Game(2);
 
       game.playTurn(1);
@@ -38,22 +38,22 @@ describe('Game', () => {
       expect(game.playerOneTurn).toBe(false);
     });
 
-    it('is finished if board is won', () => {
+    it('is isFinished if board is won', () => {
       const game = new Game(2);
 
       game.playTurn(0);
       game.playTurn(1);
       game.playTurn(2);
 
-      expect(game.finished()).toBe(true);
+      expect(game.isFinished()).toBe(true);
     });
   });
 
-  describe('tileFree', () => {
+  describe('isTileFree', () => {
     it('returns true if tile free', () => {
       const game = new Game(3);
 
-      expect(game.tileFree(0)).toBe(true);
+      expect(game.isTileFree(0)).toBe(true);
     });
 
     it('returns false if tile not free', () => {
@@ -61,7 +61,7 @@ describe('Game', () => {
 
       game.playTurn(0);
 
-      expect(game.tileFree(0)).toBe(false);
+      expect(game.isTileFree(0)).toBe(false);
     });
   });
 

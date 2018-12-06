@@ -8,6 +8,7 @@ export class PlayGameView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      players: this.props.location.pathname,
       game: new Game(3),
       isFinished: false,
       tileTaken: false,
@@ -50,6 +51,7 @@ export class PlayGameView extends Component {
   };
 
   render() {
+    console.log(this.state.players);
     return (
       <div className="PlayGame">
         {this.gameMessage()}
