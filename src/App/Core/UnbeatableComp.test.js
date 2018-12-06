@@ -5,10 +5,20 @@ import {Board} from './Board';
 import {EMPTY, P1, P2} from '../Constants';
 
 describe('pickCompTile', () => {
-  it('max', () => {
+  it('getTileOfMaxScore - 1', () => {
+    const uComp = new UnbeatableComp();
+    const emptyTiles = [0, 3, 8];
     const scores = [2, 8, 5];
 
-    expect(Math.max(...scores)).toBe(8);
+    expect(uComp.getTileOfMaxScore(emptyTiles, scores)).toBe(3);
+  });
+
+  it('getTileOfMaxScore - 2', () => {
+    const uComp = new UnbeatableComp();
+    const emptyTiles = [1, 2, 7];
+    const scores = [7, 2, 5];
+
+    expect(uComp.getTileOfMaxScore(emptyTiles, scores)).toBe(1);
   });
 
   //  it('1 - returns random number in range, not picked', () => {
