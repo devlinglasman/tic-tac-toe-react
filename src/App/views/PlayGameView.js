@@ -20,10 +20,12 @@ export class PlayGameView extends Component {
     if (!this.state.isFinished) {
       return <p>Please select a tile</p>;
     } else {
-      if (this.state.game.won(P1)) {
-        return <p>Player 1 won!</p>;
-      } else if (this.state.game.won(P2)) {
-        return <p>Player 2 won!</p>;
+      if (this.state.game.isWon()) {
+        if (this.state.game.isP1Turn) {
+          return <p>Player 1 won!</p>;
+        } else {
+          return <p>Player 2 won!</p>;
+        }
       } else {
         return <p>It was a tie!</p>;
       }
@@ -52,12 +54,12 @@ export class PlayGameView extends Component {
   };
 
   render() {
-    console.log(this.state.players);
     return (
       <div className="PlayGame">
         {this.gameMessage()}
         {this.tileTakenMessage()}
         <Grid
+          players={this.state.players}
           game={this.state.game}
           markFinished={this.markFinished}
           tileTaken={this.tileTaken}

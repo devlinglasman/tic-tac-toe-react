@@ -1,7 +1,7 @@
 //@format
 
 import React, {Component} from 'react';
-import {EMPTY, P1, P2} from '../Constants';
+import {EMPTY, P1, P2, human, dumbComp, unbeatableComp} from '../Constants';
 import {GridFormatter} from './GridFormatter';
 
 export class Grid extends Component {
@@ -9,6 +9,7 @@ export class Grid extends Component {
     super(props);
     this.state = {
       game: props.game,
+      players: props.players,
       gridSize: props.game.gridSize,
       tiles: props.game.board.tiles,
       markFinished: props.markFinished,
@@ -16,16 +17,27 @@ export class Grid extends Component {
     };
   }
 
-  runGame = tilePicked => {
+  runHvHGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
-    if (this.state.game.isFinished(P1)) {
-      this.state.markFinished(P1);
+    if (this.state.game.isFinished()) {
+      this.state.markFinished();
+    }
+  };
+
+  runHvDCGame = tilePicked => {
+    this.state.game.makeHumanMove(tilePicked);
+    this.setState({tiles: this.state.tiles});
+    if (this.state.game.isFinished()) {
+      this.state.markFinished();
     } else {
+      this.state.game.switchPlayer();
       this.state.game.makeCompMove();
       this.setState({tiles: this.state.tiles});
-      if (this.state.game.isFinished(P2)) {
-        this.state.markFinished(P2);
+      if (this.state.game.isFinished()) {
+        this.state.markFinished();
+      } else {
+        this.state.game.switchPlayer();
       }
     }
   };
@@ -34,7 +46,11 @@ export class Grid extends Component {
     const tilePicked = event.target.value;
     if (!this.state.game.isFinished()) {
       if (this.state.game.isTileFree(tilePicked)) {
-        this.runGame(tilePicked);
+        if (this.state.players.includes('hvh')) {
+          this.runHvHGame(tilePicked);
+        } else {
+          this.runHvDCGame(tilePicked);
+        }
       } else {
         this.state.tileTaken();
       }

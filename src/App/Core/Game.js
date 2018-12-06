@@ -8,7 +8,7 @@ export class Game {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
-    this.playerOneTurn = true;
+    this.isP1Turn = true;
     this.compPlayer = new DumbCompPlayer();
   }
 
@@ -25,23 +25,19 @@ export class Game {
     return this.board.freeTile(move);
   };
 
-  isFinished = player => {
-    return this.board.full() || this.won(player);
+  isFinished = () => {
+    return this.board.full() || this.isWon();
   };
 
   switchPlayer = () => {
-    this.playerOneTurn = !this.playerOneTurn;
+    this.isP1Turn = !this.isP1Turn;
   };
 
-  won = player => {
-    if (player === P1) {
-      return this.board.won(P1);
-    } else {
-      return this.board.won(P2);
-    }
+  isWon = () => {
+    return this.board.isWon(P1) || this.board.isWon(P2);
   };
 
   isHumanMove = () => {
-    return this.playerOneTurn;
+    return this.isP1Turn;
   };
 }

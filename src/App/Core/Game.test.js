@@ -10,12 +10,12 @@ describe('Game', () => {
 
       game.switchPlayer();
 
-      expect(game.playerOneTurn).toBe(false);
+      expect(game.isP1Turn).toBe(false);
     });
   });
 
   describe('isFinished', () => {
-    it('is isFinished if board is won', () => {
+    it('is isFinished if board is isWon', () => {
       const game = new Game(2);
 
       game.makeHumanMove(0);
@@ -41,23 +41,23 @@ describe('Game', () => {
     });
   });
 
-  describe('won', () => {
-    it('returns true if board won by P1', () => {
+  describe('isWon', () => {
+    it('returns true if board isWon by P1', () => {
       const game = new Game(2);
 
       game.makeHumanMove(0);
       game.makeHumanMove(1);
 
-      expect(game.won(P1)).toBe(true);
+      expect(game.isWon(P1)).toBe(true);
     });
 
-    it('returns true if board won by P2', () => {
+    it('returns true if board isWon by P2', () => {
       const game = new Game(2);
 
       game.makeCompMove(0);
       game.makeCompMove(1);
 
-      expect(game.won(P2)).toBe(true);
+      expect(game.isWon(P2)).toBe(true);
     });
   });
 });

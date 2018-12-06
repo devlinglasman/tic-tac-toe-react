@@ -25,7 +25,7 @@ export class Board {
     return !this.tiles.includes(EMPTY);
   };
 
-  won = player => {
+  isWon = player => {
     const bWA = new BoardWinAnalyser(this.tiles, player);
     return bWA.anyLineIsWinning();
   };

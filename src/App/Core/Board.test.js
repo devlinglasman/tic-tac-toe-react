@@ -70,31 +70,31 @@ describe('Board', () => {
     });
   });
 
-  describe('won', () => {
-    it('returns false if board not won', () => {
+  describe('isWon', () => {
+    it('returns false if board not isWon', () => {
       const board = new Board(3);
 
-      expect(board.won(P1)).toBe(false);
+      expect(board.isWon(P1)).toBe(false);
     });
 
-    it('returns true if board won by P1', () => {
+    it('returns true if board isWon by P1', () => {
       const board = new Board(3);
 
       board.placeMark(P1, 0);
       board.placeMark(P1, 1);
       board.placeMark(P1, 2);
 
-      expect(board.won(P1)).toBe(true);
+      expect(board.isWon(P1)).toBe(true);
     });
 
-    it('returns true if board won by P2', () => {
+    it('returns true if board isWon by P2', () => {
       const board = new Board(3);
 
       board.placeMark(P2, 2);
       board.placeMark(P2, 4);
       board.placeMark(P2, 6);
 
-      expect(board.won(P2)).toBe(true);
+      expect(board.isWon(P2)).toBe(true);
     });
   });
 
