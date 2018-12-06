@@ -69,37 +69,27 @@ describe('pickCompTile', () => {
     expect(uComp.scoreBoard(board, P1, P2)).toBe(0);
   });
 
-  it('generateScores - 1', () => {
+  it('maximise - find top score', () => {
     const uComp = new UnbeatableComp();
     const board = new Board(3);
 
     board.placeMark(P1, 0);
     board.placeMark(P1, 1);
 
-    const expectedScores = [10];
+    const expectedScore = 10;
 
-    expect(uComp.maximise(board, [2], P1, P2)).toEqual(expectedScores);
+    expect(uComp.maximise(board, [2], P1, P2, false)).toEqual(expectedScore);
   });
 
-  //  it('1 - returns random number in range, not picked', () => {
-  //    const compPlayer = new DumbCompPlayer();
-  //    const board = new Board(2);
-  //
-  //    board.placeMark(P1, 0);
-  //    board.placeMark(P1, 1);
-  //    board.placeMark(P1, 2);
-  //
-  //    expect(compPlayer.pickCompTile(board)).toBe(3);
-  //  });
-  //
-  //  it('2 - returns random number in range, not picked', () => {
-  //    const compPlayer = new DumbCompPlayer();
-  //    const board = new Board(2);
-  //
-  //    board.placeMark(P1, 0);
-  //    board.placeMark(P1, 1);
-  //    board.placeMark(P1, 3);
-  //
-  //    expect(compPlayer.pickCompTile(board)).toBe(2);
-  //  });
+  it('maximise - find top-scoring tile', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+
+    const expectedTile = 2;
+
+    expect(uComp.maximise(board, [2], P1, P2, true)).toEqual(expectedTile);
+  });
 });

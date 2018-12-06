@@ -7,10 +7,10 @@ export class UnbeatableComp {
     const emptyTiles = board.getEmptyTiles();
     const scores = this.generateScores(board, emptyTiles);
 
-    return this.getTileOfMaxScore(emptyTiles, scores);
+    return this.maximise(board, emptyTiles, activePlayer, passivePlayer, true);
   };
 
-  maximise = (board, emptyTiles, activePlayer, passivePlayer) => {
+  maximise = (board, emptyTiles, activePlayer, passivePlayer, isTopLevel) => {
     let scores = [];
     for (let i = 0; i < emptyTiles.length; i++) {
       const nextBoard = this.simulateNextBoard(
@@ -21,7 +21,11 @@ export class UnbeatableComp {
       const nextScore = this.scoreBoard(nextBoard, activePlayer, passivePlayer);
       scores.push(nextScore);
     }
-    return scores;
+    if (isTopLevel) {
+      return this.getTileOfMaxScore(emptyTiles, scores);
+    } else {
+      return Math.max(...scores);
+    }
   };
 
   simulateNextBoard = (board, move, player) => {
