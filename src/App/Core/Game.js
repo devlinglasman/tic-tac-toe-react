@@ -24,7 +24,11 @@ export class Game {
   };
 
   makeUCompMove = () => {
-    const tilePick = this.uComp.pickCompTile(this.board);
+    const tilePick = this.uComp.pickCompTile(
+      this.board,
+      this.getActivePlayer(),
+      this.getPassivePlayer(),
+    );
     this.board.placeMark(this.getActivePlayer(), tilePick);
   };
 
@@ -49,6 +53,14 @@ export class Game {
       return P1;
     } else {
       return P2;
+    }
+  };
+
+  getPassivePlayer = () => {
+    if (this.isP1Turn) {
+      return P2;
+    } else {
+      return P1;
     }
   };
 }

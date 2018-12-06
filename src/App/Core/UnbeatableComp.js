@@ -1,8 +1,23 @@
 //@format
 
 export class UnbeatableComp {
-  pickCompTile = board => {
+  pickCompTile = (board, activePlayer, passivePlayer) => {
     const emptyTiles = board.getEmptyTiles();
+    const scores = this.generateScores(board, emptyTiles);
+
+    return this.getTileOfMaxScore(emptyTiles, scores);
+  };
+
+  generateScores = (board, emptyTiles) => {};
+
+  scoreBoard = (board, activePlayer, passivePlayer) => {
+    if (board.isWon(activePlayer)) {
+      return 10;
+    } else if (board.isWon(passivePlayer)) {
+      return -10;
+    } else {
+      return 0;
+    }
   };
 
   getTileOfMaxScore = (tiles, scores) => {
