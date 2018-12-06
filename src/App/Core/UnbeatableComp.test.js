@@ -28,7 +28,7 @@ describe('pickCompTile', () => {
     board.placeMark(P1, 0);
     board.placeMark(P1, 1);
 
-    expect(uComp.scoreBoard(board, P1, P2)).toBe(10);
+    expect(uComp.scoreTerminalBoard(board, P1, P2, 0)).toBe(1000);
   });
 
   it('scores board - P1 win 3x3', () => {
@@ -39,7 +39,7 @@ describe('pickCompTile', () => {
     board.placeMark(P1, 1);
     board.placeMark(P1, 2);
 
-    expect(uComp.scoreBoard(board, P1, P2)).toBe(10);
+    expect(uComp.scoreTerminalBoard(board, P1, P2, 0)).toBe(1000);
   });
 
   it('scores board - P2 win', () => {
@@ -49,7 +49,7 @@ describe('pickCompTile', () => {
     board.placeMark(P2, 0);
     board.placeMark(P2, 1);
 
-    expect(uComp.scoreBoard(board, P2, P1)).toBe(10);
+    expect(uComp.scoreTerminalBoard(board, P2, P1, 0)).toBe(1000);
   });
 
   it('scores board - P1 loss', () => {
@@ -59,14 +59,14 @@ describe('pickCompTile', () => {
     board.placeMark(P2, 0);
     board.placeMark(P2, 1);
 
-    expect(uComp.scoreBoard(board, P1, P2)).toBe(-10);
+    expect(uComp.scoreTerminalBoard(board, P1, P2, 0)).toBe(-1000);
   });
 
   it('scores board - draw', () => {
     const uComp = new UnbeatableComp();
     const board = new Board(2);
 
-    expect(uComp.scoreBoard(board, P1, P2)).toBe(0);
+    expect(uComp.scoreTerminalBoard(board, P1, P2, 0)).toBe(0);
   });
 
   it('maximise - find top score', () => {
@@ -76,9 +76,9 @@ describe('pickCompTile', () => {
     board.placeMark(P1, 0);
     board.placeMark(P1, 1);
 
-    const expectedScore = 10;
+    const expectedScore = 1000;
 
-    expect(uComp.maximise(board, [2], P1, P2, false)).toEqual(expectedScore);
+    expect(uComp.maximise(board, [2], P1, P2, false, 0)).toEqual(expectedScore);
   });
 
   it('maximise - find top-scoring tile', () => {
@@ -90,6 +90,42 @@ describe('pickCompTile', () => {
 
     const expectedTile = 2;
 
-    expect(uComp.maximise(board, [2], P1, P2, true)).toEqual(expectedTile);
+    expect(uComp.maximise(board, [2], P1, P2, true, 0)).toEqual(expectedTile);
+  });
+
+  it('minimise - find lowest score', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+
+    const expectedScore = -1000;
+
+    expect(uComp.minimise(board, [2], P1, P2, 0)).toEqual(expectedScore);
+  });
+
+  it('pickCompTile - 1', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+
+    const expectedTile = 2;
+
+    expect(uComp.pickCompTile(board, P1, P2)).toEqual(expectedTile);
+  });
+
+  it('pickCompTile - 2', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+
+    const expectedTile = 2;
+
+    expect(uComp.pickCompTile(board, P2, P1)).toEqual(expectedTile);
   });
 });

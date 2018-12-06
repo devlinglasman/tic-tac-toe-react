@@ -147,4 +147,20 @@ describe('Board', () => {
       expect(copiedBoard.tiles).toEqual(board.tiles);
     });
   });
+
+  describe('isFinished', () => {
+    it('returns true if finished game', () => {
+      const board = new Board(2);
+      board.placeMark(P1, 0);
+      board.placeMark(P1, 1);
+
+      expect(board.isFinished()).toBe(true);
+    });
+
+    it('returns false if not finished game', () => {
+      const board = new Board(2);
+
+      expect(board.isFinished()).toBe(false);
+    });
+  });
 });

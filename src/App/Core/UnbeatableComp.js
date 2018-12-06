@@ -5,12 +5,25 @@ import {Board} from './Board';
 export class UnbeatableComp {
   pickCompTile = (board, activePlayer, passivePlayer) => {
     const emptyTiles = board.getEmptyTiles();
-    const scores = this.generateScores(board, emptyTiles);
 
-    return this.maximise(board, emptyTiles, activePlayer, passivePlayer, true);
+    return this.maximise(
+      board,
+      emptyTiles,
+      activePlayer,
+      passivePlayer,
+      true,
+      0,
+    );
   };
 
-  maximise = (board, emptyTiles, activePlayer, passivePlayer, isTopLevel) => {
+  maximise = (
+    board,
+    emptyTiles,
+    activePlayer,
+    passivePlayer,
+    isTopLevel,
+    depth,
+  ) => {
     let scores = [];
     for (let i = 0; i < emptyTiles.length; i++) {
       const nextBoard = this.simulateNextBoard(
@@ -18,7 +31,24 @@ export class UnbeatableComp {
         emptyTiles[i],
         activePlayer,
       );
-      const nextScore = this.scoreBoard(nextBoard, activePlayer, passivePlayer);
+      let nextScore;
+      if (nextBoard.isFinished()) {
+        nextScore = this.scoreTerminalBoard(
+          nextBoard,
+          activePlayer,
+          passivePlayer,
+          depth,
+        );
+      } else {
+        const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
+        nextScore = this.minimise(
+          nextBoard,
+          nextBoardEmptyTiles,
+          passivePlayer,
+          activePlayer,
+          depth + 1,
+        );
+      }
       scores.push(nextScore);
     }
     if (isTopLevel) {
@@ -28,17 +58,49 @@ export class UnbeatableComp {
     }
   };
 
+  minimise = (board, emptyTiles, activePlayer, passivePlayer, depth) => {
+    let scores = [];
+    for (let i = 0; i < emptyTiles.length; i++) {
+      const nextBoard = this.simulateNextBoard(
+        board,
+        emptyTiles[i],
+        activePlayer,
+      );
+      let nextScore;
+      if (nextBoard.isFinished()) {
+        nextScore = this.scoreTerminalBoard(
+          nextBoard,
+          passivePlayer,
+          activePlayer,
+          depth,
+        );
+      } else {
+        const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
+        nextScore = this.maximise(
+          nextBoard,
+          nextBoardEmptyTiles,
+          passivePlayer,
+          activePlayer,
+          false,
+          depth + 1,
+        );
+      }
+      scores.push(nextScore);
+    }
+    return Math.min(...scores);
+  };
+
   simulateNextBoard = (board, move, player) => {
     const nextBoard = board.copySelf();
     nextBoard.placeMark(player, move);
     return nextBoard;
   };
 
-  scoreBoard = (board, activePlayer, passivePlayer) => {
+  scoreTerminalBoard = (board, activePlayer, passivePlayer, depth) => {
     if (board.isWon(activePlayer)) {
-      return 10;
+      return 1000 - depth;
     } else if (board.isWon(passivePlayer)) {
-      return -10;
+      return depth - 1000;
     } else {
       return 0;
     }

@@ -21,6 +21,10 @@ export class Board {
     this.tiles[position] = mark;
   };
 
+  isFinished = () => {
+    return this.full() || this.isWon(P1) || this.isWon(P2);
+  };
+
   full = () => {
     return !this.tiles.includes(EMPTY);
   };
