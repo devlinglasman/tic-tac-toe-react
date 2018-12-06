@@ -60,6 +60,22 @@ describe('Game', () => {
       expect(game.isWon(P2)).toBe(true);
     });
   });
+
+  describe('getActivePlayer', () => {
+    it('returns P1 if P1 active', () => {
+      const game = new Game(2);
+
+      expect(game.getActivePlayer()).toEqual(P1);
+    });
+
+    it('returns P2 if P2 active', () => {
+      const game = new Game(2);
+
+      game.switchPlayer();
+
+      expect(game.getActivePlayer()).toEqual(P2);
+    });
+  });
 });
 
 const gridWithP1Mark = [

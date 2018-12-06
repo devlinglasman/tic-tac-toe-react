@@ -13,12 +13,12 @@ export class Game {
   }
 
   makeHumanMove = move => {
-    this.board.placeMark(P1, move);
+    this.board.placeMark(this.getActivePlayer(), move);
   };
 
   makeCompMove = () => {
     const tilePick = this.compPlayer.pickCompTile(this.board);
-    this.board.placeMark(P2, tilePick);
+    this.board.placeMark(this.getActivePlayer(), tilePick);
   };
 
   isTileFree = move => {
@@ -37,7 +37,11 @@ export class Game {
     return this.board.isWon(P1) || this.board.isWon(P2);
   };
 
-  isHumanMove = () => {
-    return this.isP1Turn;
+  getActivePlayer = () => {
+    if (this.isP1Turn) {
+      return P1;
+    } else {
+      return P2;
+    }
   };
 }

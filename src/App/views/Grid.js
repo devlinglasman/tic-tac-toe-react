@@ -22,6 +22,8 @@ export class Grid extends Component {
     this.setState({tiles: this.state.tiles});
     if (this.state.game.isFinished()) {
       this.state.markFinished();
+    } else {
+      this.state.game.switchPlayer();
     }
   };
 
