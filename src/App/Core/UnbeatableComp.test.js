@@ -31,6 +31,17 @@ describe('pickCompTile', () => {
     expect(uComp.scoreBoard(board, P1, P2)).toBe(10);
   });
 
+  it('scores board - P1 win 3x3', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+    board.placeMark(P1, 2);
+
+    expect(uComp.scoreBoard(board, P1, P2)).toBe(10);
+  });
+
   it('scores board - P2 win', () => {
     const uComp = new UnbeatableComp();
     const board = new Board(2);
@@ -57,13 +68,18 @@ describe('pickCompTile', () => {
 
     expect(uComp.scoreBoard(board, P1, P2)).toBe(0);
   });
-  //  it('generateScores - 1', () => {
-  //    const uComp = new UnbeatableComp();
-  //    const emptyTiles = [3];
-  //    const scores = [10];
-  //
-  //    expect(uComp.generateScores(emptyTiles)).toEqual(scores);
-  //  });
+
+  it('generateScores - 1', () => {
+    const uComp = new UnbeatableComp();
+    const board = new Board(3);
+
+    board.placeMark(P1, 0);
+    board.placeMark(P1, 1);
+
+    const expectedScores = [10];
+
+    expect(uComp.maximise(board, [2], P1, P2)).toEqual(expectedScores);
+  });
 
   //  it('1 - returns random number in range, not picked', () => {
   //    const compPlayer = new DumbCompPlayer();

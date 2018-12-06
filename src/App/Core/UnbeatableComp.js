@@ -1,5 +1,7 @@
 //@format
 
+import {Board} from './Board';
+
 export class UnbeatableComp {
   pickCompTile = (board, activePlayer, passivePlayer) => {
     const emptyTiles = board.getEmptyTiles();
@@ -8,7 +10,25 @@ export class UnbeatableComp {
     return this.getTileOfMaxScore(emptyTiles, scores);
   };
 
-  generateScores = (board, emptyTiles) => {};
+  maximise = (board, emptyTiles, activePlayer, passivePlayer) => {
+    let scores = [];
+    for (let i = 0; i < emptyTiles.length; i++) {
+      const nextBoard = this.simulateNextBoard(
+        board,
+        emptyTiles[i],
+        activePlayer,
+      );
+      const nextScore = this.scoreBoard(nextBoard, activePlayer, passivePlayer);
+      scores.push(nextScore);
+    }
+    return scores;
+  };
+
+  simulateNextBoard = (board, move, player) => {
+    const nextBoard = board.copySelf();
+    nextBoard.placeMark(player, move);
+    return nextBoard;
+  };
 
   scoreBoard = (board, activePlayer, passivePlayer) => {
     if (board.isWon(activePlayer)) {

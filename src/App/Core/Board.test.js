@@ -136,4 +136,15 @@ describe('Board', () => {
       expect(board.getEmptyTiles()).toEqual(emptyTiles);
     });
   });
+
+  describe('copySelf', () => {
+    it('returns board with same tiles as itself', () => {
+      const board = new Board(2);
+      board.placeMark(P1, 2);
+
+      const copiedBoard = board.copySelf();
+
+      expect(copiedBoard.tiles).toEqual(board.tiles);
+    });
+  });
 });

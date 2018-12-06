@@ -25,7 +25,7 @@ export class Game {
 
   makeUCompMove = () => {
     const tilePick = this.uComp.pickCompTile(
-      this.board,
+      this.board.copySelf(),
       this.getActivePlayer(),
       this.getPassivePlayer(),
     );

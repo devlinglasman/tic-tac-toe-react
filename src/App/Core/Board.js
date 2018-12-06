@@ -47,4 +47,14 @@ export class Board {
     }
     return emptyTiles;
   };
+
+  copySelf = () => {
+    const newBoard = new Board(this.gridSize);
+    newBoard.tiles = this.copyTiles();
+    return newBoard;
+  };
+
+  copyTiles = () => {
+    return this.tiles.slice();
+  };
 }
