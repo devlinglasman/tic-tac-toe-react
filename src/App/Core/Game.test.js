@@ -15,7 +15,7 @@ describe('Game', () => {
   });
 
   describe('isFinished', () => {
-    it('is isFinished if board is isWon', () => {
+    it('is isFinished if board isWon', () => {
       const game = new Game(2);
 
       game.makeHumanMove(0);
@@ -54,8 +54,9 @@ describe('Game', () => {
     it('returns true if board isWon by P2', () => {
       const game = new Game(2);
 
-      game.makeCompMove(0);
-      game.makeCompMove(1);
+      game.switchPlayer();
+      game.makeHumanMove(0);
+      game.makeHumanMove(1);
 
       expect(game.isWon(P2)).toBe(true);
     });

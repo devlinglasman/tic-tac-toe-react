@@ -3,21 +3,28 @@
 import {Board} from './Board';
 import {EMPTY, P1, P2} from '../Constants';
 import {DumbCompPlayer} from './DumbCompPlayer';
+import {UnbeatableComp} from './UnbeatableComp';
 
 export class Game {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
     this.isP1Turn = true;
-    this.compPlayer = new DumbCompPlayer();
+    this.dumbComp = new DumbCompPlayer();
+    this.uComp = new UnbeatableComp();
   }
 
   makeHumanMove = move => {
     this.board.placeMark(this.getActivePlayer(), move);
   };
 
-  makeCompMove = () => {
-    const tilePick = this.compPlayer.pickCompTile(this.board);
+  makeDumbCompMove = () => {
+    const tilePick = this.dumbComp.pickCompTile(this.board);
+    this.board.placeMark(this.getActivePlayer(), tilePick);
+  };
+
+  makeUCompMove = () => {
+    const tilePick = this.uComp.pickCompTile(this.board);
     this.board.placeMark(this.getActivePlayer(), tilePick);
   };
 

@@ -113,4 +113,27 @@ describe('Board', () => {
       expect(board.freeTile(0)).toBe(false);
     });
   });
+
+  describe('getEmptyTiles', () => {
+    it('returns empty tile indices from 2x2', () => {
+      const board = new Board(2);
+      const emptyTiles = [0, 1, 3];
+
+      board.placeMark(P1, 2);
+
+      expect(board.getEmptyTiles()).toEqual(emptyTiles);
+    });
+
+    it('returns empty tile indices from 3x3', () => {
+      const board = new Board(3);
+      const emptyTiles = [0, 3, 6, 7, 8];
+
+      board.placeMark(P1, 1);
+      board.placeMark(P1, 2);
+      board.placeMark(P1, 4);
+      board.placeMark(P1, 5);
+
+      expect(board.getEmptyTiles()).toEqual(emptyTiles);
+    });
+  });
 });

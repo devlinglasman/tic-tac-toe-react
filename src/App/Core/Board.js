@@ -37,4 +37,14 @@ export class Board {
   boardLength = () => {
     return this.tiles.length;
   };
+
+  getEmptyTiles = () => {
+    let emptyTiles = [];
+    for (let i = 0; i < this.tiles.length; i++) {
+      if (this.tiles[i] === EMPTY) {
+        emptyTiles.push(i);
+      }
+    }
+    return emptyTiles;
+  };
 }

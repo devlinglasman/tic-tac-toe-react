@@ -37,7 +37,25 @@ export class Grid extends Component {
       this.state.markFinished();
     } else {
       this.state.game.switchPlayer();
-      this.state.game.makeCompMove();
+      this.state.game.makeDumbCompMove();
+      this.setState({tiles: this.state.tiles});
+      if (this.state.game.isFinished()) {
+        this.state.markFinished();
+      } else {
+        this.state.game.switchPlayer();
+      }
+    }
+  };
+
+  runHvUCGame = tilePicked => {
+    this.state.game.makeHumanMove(tilePicked);
+    this.setState({tiles: this.state.tiles});
+    this.state.resetTileTaken();
+    if (this.state.game.isFinished()) {
+      this.state.markFinished();
+    } else {
+      this.state.game.switchPlayer();
+      this.state.game.makeUCompMove();
       this.setState({tiles: this.state.tiles});
       if (this.state.game.isFinished()) {
         this.state.markFinished();
@@ -53,8 +71,10 @@ export class Grid extends Component {
       if (this.state.game.isTileFree(tilePicked)) {
         if (this.state.players.includes('hvh')) {
           this.runHvHGame(tilePicked);
-        } else {
+        } else if (this.state.players.includes('hvdc')) {
           this.runHvDCGame(tilePicked);
+        } else {
+          this.runHvUCGame(tilePicked);
         }
       } else {
         this.state.tileTaken();
