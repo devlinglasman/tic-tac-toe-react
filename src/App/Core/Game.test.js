@@ -4,24 +4,7 @@ import {Game} from './Game';
 import {EMPTY, P1, P2} from '../Constants';
 
 describe('Game', () => {
-  describe('playTurn', () => {
-    it('places Player One mark if playerOneTurn', () => {
-      const game = new Game(3);
-
-      game.playTurn(0);
-
-      expect(game.board.tiles).toEqual(gridWithP1Mark);
-    });
-
-    it('places Player Two mark if not playerOneTurn', () => {
-      const game = new Game(3);
-
-      game.playTurn(0);
-      game.playTurn(1);
-
-      expect(game.board.tiles).toEqual(gridWithP1AndP2Mark);
-    });
-
+  describe('switchPlayer', () => {
     it('switches active player', () => {
       const game = new Game(2);
 
@@ -29,23 +12,16 @@ describe('Game', () => {
 
       expect(game.playerOneTurn).toBe(false);
     });
+  });
 
-    it('switches active player if game not isFinished', () => {
-      const game = new Game(2);
-
-      game.playTurn(1);
-
-      expect(game.playerOneTurn).toBe(false);
-    });
-
+  describe('isFinished', () => {
     it('is isFinished if board is won', () => {
       const game = new Game(2);
 
-      game.playTurn(0);
-      game.playTurn(1);
-      game.playTurn(2);
+      game.makeHumanMove(0);
+      game.makeHumanMove(1);
 
-      expect(game.isFinished()).toBe(true);
+      expect(game.isFinished(P1)).toBe(true);
     });
   });
 
@@ -59,7 +35,7 @@ describe('Game', () => {
     it('returns false if tile not free', () => {
       const game = new Game(3);
 
-      game.playTurn(0);
+      game.makeHumanMove(0);
 
       expect(game.isTileFree(0)).toBe(false);
     });
@@ -69,24 +45,19 @@ describe('Game', () => {
     it('returns true if board won by P1', () => {
       const game = new Game(2);
 
-      game.playTurn(0);
-      game.playTurn(1);
-      game.playTurn(2);
+      game.makeHumanMove(0);
+      game.makeHumanMove(1);
 
-      expect(game.won()).toBe(true);
+      expect(game.won(P1)).toBe(true);
     });
 
     it('returns true if board won by P2', () => {
-      const game = new Game(3);
+      const game = new Game(2);
 
-      game.playTurn(0);
-      game.playTurn(1);
-      game.playTurn(2);
-      game.playTurn(4);
-      game.playTurn(5);
-      game.playTurn(7);
+      game.makeCompMove(0);
+      game.makeCompMove(1);
 
-      expect(game.won()).toBe(true);
+      expect(game.won(P2)).toBe(true);
     });
   });
 });

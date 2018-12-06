@@ -25,16 +25,16 @@ export class Game {
     return this.board.freeTile(move);
   };
 
-  isFinished = () => {
-    return this.board.full() || this.won();
+  isFinished = player => {
+    return this.board.full() || this.won(player);
   };
 
   switchPlayer = () => {
     this.playerOneTurn = !this.playerOneTurn;
   };
 
-  won = () => {
-    if (this.playerOneTurn) {
+  won = player => {
+    if (player === P1) {
       return this.board.won(P1);
     } else {
       return this.board.won(P2);

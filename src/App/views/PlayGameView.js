@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {Grid} from './Grid';
 import {Game} from '../Core/Game';
+import {EMPTY, P1, P2} from '../Constants';
 
 export class PlayGameView extends Component {
   constructor(props) {
@@ -18,14 +19,14 @@ export class PlayGameView extends Component {
   gameMessage = () => {
     if (!this.state.isFinished) {
       return <p>Please select a tile</p>;
-    } else if (this.state.game.won()) {
-      if (this.state.game.playerOneTurn) {
-        return <p>Player 1 won!</p>;
-      } else {
-        return <p>Player 2 won!</p>;
-      }
     } else {
-      return <p>It was a tie!</p>;
+      if (this.state.game.won(P1)) {
+        return <p>Player 1 won!</p>;
+      } else if (this.state.game.won(P2)) {
+        return <p>Player 2 won!</p>;
+      } else {
+        return <p>It was a tie!</p>;
+      }
     }
   };
 
