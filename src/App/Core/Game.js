@@ -27,7 +27,6 @@ export class Game {
     const tilePick = this.uComp.pickCompTile(
       this.board.copySelf(),
       this.getActivePlayer(),
-      this.getPassivePlayer(),
     );
     this.board.placeMark(this.getActivePlayer(), tilePick);
   };
@@ -37,7 +36,7 @@ export class Game {
   };
 
   isFinished = () => {
-    return this.board.full() || this.isWon();
+    return this.board.isFull() || this.isWon();
   };
 
   switchPlayer = () => {

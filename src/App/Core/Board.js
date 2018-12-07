@@ -22,10 +22,10 @@ export class Board {
   };
 
   isFinished = () => {
-    return this.full() || this.isWon(P1) || this.isWon(P2);
+    return this.isFull() || this.isWon(P1) || this.isWon(P2);
   };
 
-  full = () => {
+  isFull = () => {
     return !this.tiles.includes(EMPTY);
   };
 

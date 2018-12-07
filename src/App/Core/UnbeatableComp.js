@@ -1,29 +1,16 @@
 //@format
 
 import {Board} from './Board';
+import {EMPTY, P1, P2} from '../Constants';
 
 export class UnbeatableComp {
-  pickCompTile = (board, activePlayer, passivePlayer) => {
+  pickCompTile = (board, activePlayer) => {
     const emptyTiles = board.getEmptyTiles();
 
-    return this.maximise(
-      board,
-      emptyTiles,
-      activePlayer,
-      passivePlayer,
-      true,
-      0,
-    );
+    return this.maximise(board, emptyTiles, activePlayer, true, 0);
   };
 
-  maximise = (
-    board,
-    emptyTiles,
-    activePlayer,
-    passivePlayer,
-    isTopLevel,
-    depth,
-  ) => {
+  maximise = (board, emptyTiles, activePlayer, isTopLevel, depth) => {
     let scores = [];
     for (let i = 0; i < emptyTiles.length; i++) {
       const nextBoard = this.simulateNextBoard(
@@ -33,19 +20,13 @@ export class UnbeatableComp {
       );
       let nextScore;
       if (nextBoard.isFinished()) {
-        nextScore = this.scoreTerminalBoard(
-          nextBoard,
-          activePlayer,
-          passivePlayer,
-          depth,
-        );
+        nextScore = this.scoreTerminalBoard(nextBoard, activePlayer, depth);
       } else {
         const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
         nextScore = this.minimise(
           nextBoard,
           nextBoardEmptyTiles,
-          passivePlayer,
-          activePlayer,
+          this.getOtherPlayer(activePlayer),
           depth + 1,
         );
       }
@@ -58,7 +39,7 @@ export class UnbeatableComp {
     }
   };
 
-  minimise = (board, emptyTiles, activePlayer, passivePlayer, depth) => {
+  minimise = (board, emptyTiles, activePlayer, depth) => {
     let scores = [];
     for (let i = 0; i < emptyTiles.length; i++) {
       const nextBoard = this.simulateNextBoard(
@@ -70,8 +51,7 @@ export class UnbeatableComp {
       if (nextBoard.isFinished()) {
         nextScore = this.scoreTerminalBoard(
           nextBoard,
-          passivePlayer,
-          activePlayer,
+          this.getOtherPlayer(activePlayer),
           depth,
         );
       } else {
@@ -79,8 +59,7 @@ export class UnbeatableComp {
         nextScore = this.maximise(
           nextBoard,
           nextBoardEmptyTiles,
-          passivePlayer,
-          activePlayer,
+          this.getOtherPlayer(activePlayer),
           false,
           depth + 1,
         );
@@ -96,10 +75,10 @@ export class UnbeatableComp {
     return nextBoard;
   };
 
-  scoreTerminalBoard = (board, activePlayer, passivePlayer, depth) => {
+  scoreTerminalBoard = (board, activePlayer, depth) => {
     if (board.isWon(activePlayer)) {
       return 1000 - depth;
-    } else if (board.isWon(passivePlayer)) {
+    } else if (board.isWon(this.getOtherPlayer(activePlayer))) {
       return depth - 1000;
     } else {
       return 0;
@@ -116,5 +95,9 @@ export class UnbeatableComp {
       }
     };
     return tiles[indexAtMax(scores)];
+  };
+
+  getOtherPlayer = currentPlayer => {
+    return currentPlayer === P1 ? P2 : P1;
   };
 }
