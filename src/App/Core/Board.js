@@ -1,7 +1,7 @@
 //@format
 
 import {EMPTY, P1, P2} from '../Constants';
-import {BoardWinAnalyser} from './BoardWinAnalyser';
+import {hasPlayerWon} from './BoardWinAnalyser';
 
 export class Board {
   constructor(gridSize) {
@@ -30,8 +30,7 @@ export class Board {
   };
 
   isWon = player => {
-    const bWA = new BoardWinAnalyser(this.tiles, player);
-    return bWA.anyLineIsWinning();
+    return hasPlayerWon(this.tiles, player);
   };
 
   freeTile = move => {

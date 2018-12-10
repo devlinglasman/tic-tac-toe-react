@@ -1,86 +1,80 @@
 //@format
 
-export class BoardWinAnalyser {
-  constructor(board, player) {
-    this.board = board;
-    this.player = player;
-    this.gridSize = Math.sqrt(board.length);
+export function hasPlayerWon(board, player) {
+  const gridSize = Math.sqrt(board.length);
+
+  const allLines = getAllRowIndices(board, gridSize)
+    .concat(getAllColIndices(gridSize))
+    .concat(getBothDiagIndices(gridSize));
+
+  for (let i = 0; i < allLines.length; i++) {
+    if (isLineWinning(board, allLines[i], player)) {
+      return true;
+    }
   }
+  return false;
+}
 
-  anyLineIsWinning = () => {
-    const allLines = this.getAllRowIndices()
-      .concat(this.getAllColIndices())
-      .concat(this.getBothDiagIndices());
-
-    for (let i = 0; i < allLines.length; i++) {
-      if (this.lineIsWinning(allLines[i])) {
-        return true;
-      }
+export function isLineWinning(board, line, player) {
+  for (let i = 0; i < line.length; i++) {
+    if (!(board[line[i]] === player)) {
+      return false;
     }
-    return false;
-  };
+  }
+  return true;
+}
 
-  lineIsWinning = line => {
-    for (let i = 0; i < line.length; i++) {
-      if (!(this.board[line[i]] === this.player)) {
-        return false;
-      }
-    }
-    return true;
-  };
+export function getAllRowIndices(board, gridSize) {
+  let allRowIndices = [];
+  for (let i = 0; i < board.length; i += gridSize) {
+    allRowIndices.push(getOneRowIndices(gridSize, i));
+  }
+  return allRowIndices;
+}
 
-  getAllRowIndices = () => {
-    let allRowIndices = [];
-    for (let i = 0; i < this.board.length; i += this.gridSize) {
-      allRowIndices.push(this.getOneRowIndices(i));
-    }
-    return allRowIndices;
-  };
+export function getOneRowIndices(gridSize, beginningNumber) {
+  let set = [];
+  for (let i = 0; i < gridSize; i++) {
+    set.push(beginningNumber);
+    beginningNumber++;
+  }
+  return set;
+}
 
-  getOneRowIndices = beginningNumber => {
-    let set = [];
-    for (let i = 0; i < this.gridSize; i++) {
-      set.push(beginningNumber);
-      beginningNumber++;
-    }
-    return set;
-  };
+export function getAllColIndices(gridSize) {
+  let allColIndices = [];
+  for (let i = 0; i < gridSize; i++) {
+    allColIndices.push(getOneColIndices(gridSize, i));
+  }
+  return allColIndices;
+}
 
-  getAllColIndices = () => {
-    let allColIndices = [];
-    for (let i = 0; i < this.gridSize; i++) {
-      allColIndices.push(this.getOneColIndices(i));
-    }
-    return allColIndices;
-  };
+export function getOneColIndices(gridSize, beginningNumber) {
+  let set = [];
+  for (let i = 0; i < gridSize; i++) {
+    set.push(beginningNumber);
+    beginningNumber += gridSize;
+  }
+  return set;
+}
 
-  getOneColIndices = beginningNumber => {
-    let set = [];
-    for (let i = 0; i < this.gridSize; i++) {
-      set.push(beginningNumber);
-      beginningNumber += this.gridSize;
-    }
-    return set;
-  };
+export function getBothDiagIndices(gridSize) {
+  return [getFirstDiagIndices(gridSize), getSecondDiagIndices(gridSize)];
+}
 
-  getBothDiagIndices = () => {
-    return [this.getFirstDiagIndices(), this.getSecondDiagIndices()];
-  };
+export function getFirstDiagIndices(gridSize) {
+  let set = [];
+  for (let i = 0; i < gridSize; i++) {
+    set.push(i * gridSize + i);
+  }
+  return set;
+}
 
-  getFirstDiagIndices = () => {
-    let set = [];
-    for (let i = 0; i < this.gridSize; i++) {
-      set.push(i * this.gridSize + i);
-    }
-    return set;
-  };
-
-  getSecondDiagIndices = () => {
-    let set = [];
-    for (let i = 0; i < this.gridSize; i++) {
-      let workingNumber = i + 1;
-      set.push(workingNumber * this.gridSize - workingNumber);
-    }
-    return set;
-  };
+export function getSecondDiagIndices(gridSize) {
+  let set = [];
+  for (let i = 0; i < gridSize; i++) {
+    let workingNumber = i + 1;
+    set.push(workingNumber * gridSize - workingNumber);
+  }
+  return set;
 }
