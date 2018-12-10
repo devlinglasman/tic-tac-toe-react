@@ -3,7 +3,6 @@
 import React, {Component} from 'react';
 import {Grid} from './Grid';
 import {Game} from '../Core/Game';
-import {EMPTY, P1, P2} from '../Constants';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 export class PlayGameView extends Component {

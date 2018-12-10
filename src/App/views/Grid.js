@@ -12,15 +12,13 @@ export class Grid extends Component {
       finish: props.finish,
       gridSize: props.game.gridSize,
       tiles: props.game.board.tiles,
-      tileTaken: props.tileTaken,
-      resetTileTaken: props.resetTileTaken,
     };
   }
 
   runHvHGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
-    this.state.resetTileTaken();
+    this.props.resetTileTaken();
     if (this.state.game.isFinished()) {
       this.props.finish();
     } else {
@@ -31,7 +29,7 @@ export class Grid extends Component {
   runHvDCGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
-    this.state.resetTileTaken();
+    this.props.resetTileTaken();
     if (this.state.game.isFinished()) {
       this.props.finish();
     } else {
@@ -49,7 +47,7 @@ export class Grid extends Component {
   runHvUCGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
-    this.state.resetTileTaken();
+    this.props.resetTileTaken();
     if (this.state.game.isFinished()) {
       this.props.finish();
     } else {
@@ -76,7 +74,7 @@ export class Grid extends Component {
           this.runHvUCGame(tilePicked);
         }
       } else {
-        this.state.tileTaken();
+        this.props.tileTaken();
       }
     }
   };

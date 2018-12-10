@@ -12,12 +12,10 @@ class App extends Component {
       <div className="App">
         <Router>
           <Switch>
-            <div>
-              <Route exact path="/" component={WelcomeView} />
-              <Route exact path="/hvh" component={PlayGameView} />
-              <Route exact path="/hvdc" component={PlayGameView} />
-              <Route exact path="/hvuc" component={PlayGameView} />
-            </div>
+            <Route exact path="/" component={WelcomeView} />
+            <Route exact path="/hvh" component={PlayGameView} />
+            <Route exact path="/hvdc" component={PlayGameView} />
+            <Route exact path="/hvuc" component={PlayGameView} />
           </Switch>
         </Router>
       </div>
