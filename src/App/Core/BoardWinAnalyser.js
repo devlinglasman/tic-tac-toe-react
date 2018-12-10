@@ -1,7 +1,5 @@
 //@format
 
-import {EMPTY, P1, P2} from '../Constants';
-
 export class BoardWinAnalyser {
   constructor(board, player) {
     this.board = board;

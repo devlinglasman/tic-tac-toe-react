@@ -49,7 +49,7 @@ export class PlayGameView extends Component {
     this.setState({tileTaken: false});
   };
 
-  markFinished = () => {
+  finish = () => {
     this.setState({
       isFinished: true,
     });
@@ -73,7 +73,7 @@ export class PlayGameView extends Component {
         <Grid
           players={this.state.players}
           game={this.state.game}
-          markFinished={this.markFinished}
+          finish={this.finish}
           tileTaken={this.tileTaken}
           resetTileTaken={this.resetTileTaken}
         />

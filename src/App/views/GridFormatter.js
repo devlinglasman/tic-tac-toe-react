@@ -1,7 +1,7 @@
 //@format
 
-import React, {Component} from 'react';
-import {EMPTY, P1, P2} from '../Constants';
+import React from 'react';
+import {EMPTY, P1} from '../Constants';
 
 export function GridFormatter(props) {
   const renderTile = idNumber => {

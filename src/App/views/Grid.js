@@ -1,18 +1,17 @@
 //@format
 
 import React, {Component} from 'react';
-import {EMPTY, P1, P2, human, dumbComp, unbeatableComp} from '../Constants';
 import {GridFormatter} from './GridFormatter';
 
 export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: props.game,
       players: props.players,
+      game: props.game,
+      finish: props.finish,
       gridSize: props.game.gridSize,
       tiles: props.game.board.tiles,
-      markFinished: props.markFinished,
       tileTaken: props.tileTaken,
       resetTileTaken: props.resetTileTaken,
     };
@@ -23,7 +22,7 @@ export class Grid extends Component {
     this.setState({tiles: this.state.tiles});
     this.state.resetTileTaken();
     if (this.state.game.isFinished()) {
-      this.state.markFinished();
+      this.props.finish();
     } else {
       this.state.game.switchPlayer();
     }
@@ -34,13 +33,13 @@ export class Grid extends Component {
     this.setState({tiles: this.state.tiles});
     this.state.resetTileTaken();
     if (this.state.game.isFinished()) {
-      this.state.markFinished();
+      this.props.finish();
     } else {
       this.state.game.switchPlayer();
       this.state.game.makeDumbCompMove();
       this.setState({tiles: this.state.tiles});
       if (this.state.game.isFinished()) {
-        this.state.markFinished();
+        this.props.finish();
       } else {
         this.state.game.switchPlayer();
       }
@@ -52,13 +51,13 @@ export class Grid extends Component {
     this.setState({tiles: this.state.tiles});
     this.state.resetTileTaken();
     if (this.state.game.isFinished()) {
-      this.state.markFinished();
+      this.props.finish();
     } else {
       this.state.game.switchPlayer();
       this.state.game.makeUCompMove();
       this.setState({tiles: this.state.tiles});
       if (this.state.game.isFinished()) {
-        this.state.markFinished();
+        this.props.finish();
       } else {
         this.state.game.switchPlayer();
       }

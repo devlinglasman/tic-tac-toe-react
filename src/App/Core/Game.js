@@ -1,7 +1,7 @@
 //@format
 
 import {Board} from './Board';
-import {EMPTY, P1, P2} from '../Constants';
+import {P1, P2} from '../Constants';
 import {DumbCompPlayer} from './DumbCompPlayer';
 import {UnbeatableComp} from './UnbeatableComp';
 
