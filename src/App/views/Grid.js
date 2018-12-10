@@ -26,24 +26,6 @@ export class Grid extends Component {
     }
   };
 
-  runHvDCGame = tilePicked => {
-    this.state.game.makeHumanMove(tilePicked);
-    this.setState({tiles: this.state.tiles});
-    this.props.resetTileTaken();
-    if (this.state.game.isFinished()) {
-      this.props.finish();
-    } else {
-      this.state.game.switchPlayer();
-      this.state.game.makeDumbCompMove();
-      this.setState({tiles: this.state.tiles});
-      if (this.state.game.isFinished()) {
-        this.props.finish();
-      } else {
-        this.state.game.switchPlayer();
-      }
-    }
-  };
-
   runHvUCGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
     this.setState({tiles: this.state.tiles});
@@ -68,8 +50,6 @@ export class Grid extends Component {
       if (this.state.game.isTileFree(tilePicked)) {
         if (this.state.players.includes('hvh')) {
           this.runHvHGame(tilePicked);
-        } else if (this.state.players.includes('hvdc')) {
-          this.runHvDCGame(tilePicked);
         } else {
           this.runHvUCGame(tilePicked);
         }

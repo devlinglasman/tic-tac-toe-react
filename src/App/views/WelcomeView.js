@@ -11,9 +11,6 @@ export class WelcomeView extends Component {
         <button className="hvh" value="hvh">
           <Link to="/hvh">Human vs Human</Link>
         </button>
-        <button className="hvdc" value="hvdc">
-          <Link to="/hvdc">Human vs Dumb Computer</Link>
-        </button>
         <button className="hvuc" value="hvuc">
           <Link to="/hvuc">Human vs Unbeatable Computer</Link>
         </button>

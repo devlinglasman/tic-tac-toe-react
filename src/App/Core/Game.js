@@ -2,7 +2,6 @@
 
 import {Board} from './Board';
 import {P1, P2} from '../Constants';
-import {DumbCompPlayer} from './DumbCompPlayer';
 import {UnbeatableComp} from './UnbeatableComp';
 
 export class Game {
@@ -10,17 +9,11 @@ export class Game {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
     this.isP1Turn = true;
-    this.dumbComp = new DumbCompPlayer();
     this.uComp = new UnbeatableComp();
   }
 
   makeHumanMove = move => {
     this.board.placeMark(this.getActivePlayer(), move);
-  };
-
-  makeDumbCompMove = () => {
-    const tilePick = this.dumbComp.pickCompTile(this.board);
-    this.board.placeMark(this.getActivePlayer(), tilePick);
   };
 
   makeUCompMove = () => {
