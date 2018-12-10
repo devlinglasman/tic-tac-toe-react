@@ -9,39 +9,39 @@ export class Board {
     this.tiles = this.createTiles();
   }
 
-  createTiles = () => {
+  createTiles() {
     let newTiles = [];
     for (let i = 0; i < this.gridSize * this.gridSize; i++) {
       newTiles.push(EMPTY);
     }
     return newTiles;
-  };
+  }
 
-  placeMark = (mark, position) => {
+  placeMark(mark, position) {
     this.tiles[position] = mark;
-  };
+  }
 
-  isFinished = () => {
+  isFinished() {
     return this.isFull() || this.isWon(P1) || this.isWon(P2);
-  };
+  }
 
-  isFull = () => {
+  isFull() {
     return !this.tiles.includes(EMPTY);
-  };
+  }
 
-  isWon = player => {
+  isWon(player) {
     return hasPlayerWon(this.tiles, player);
-  };
+  }
 
-  freeTile = move => {
+  freeTile(move) {
     return this.tiles[move] === EMPTY;
-  };
+  }
 
-  boardLength = () => {
+  boardLength() {
     return this.tiles.length;
-  };
+  }
 
-  getEmptyTiles = () => {
+  getEmptyTiles() {
     let emptyTiles = [];
     for (let i = 0; i < this.tiles.length; i++) {
       if (this.tiles[i] === EMPTY) {
@@ -49,15 +49,15 @@ export class Board {
       }
     }
     return emptyTiles;
-  };
+  }
 
-  copySelf = () => {
+  copySelf() {
     const newBoard = new Board(this.gridSize);
     newBoard.tiles = this.copyTiles();
     return newBoard;
-  };
+  }
 
-  copyTiles = () => {
+  copyTiles() {
     return this.tiles.slice();
-  };
+  }
 }
