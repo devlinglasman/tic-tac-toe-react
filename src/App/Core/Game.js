@@ -2,27 +2,26 @@
 
 import {Board} from './Board';
 import {P1, P2} from '../Constants';
-import {UnbeatableComp} from './UnbeatableComp';
+import {pickCompTile} from './UnbeatableComp';
 
 export class Game {
   constructor(gridSize) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
     this.isP1Turn = true;
-    this.uComp = new UnbeatableComp();
   }
 
   makeHumanMove = move => {
     this.board.placeMark(this.getActivePlayer(), move);
   };
 
-  makeUCompMove = () => {
-    const tilePick = this.uComp.pickCompTile(
+  makeCompMove() {
+    const tilePick = pickCompTile(
       this.board.copySelf(),
       this.getActivePlayer(),
     );
     this.board.placeMark(this.getActivePlayer(), tilePick);
-  };
+  }
 
   isTileFree = move => {
     return this.board.freeTile(move);

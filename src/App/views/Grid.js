@@ -34,7 +34,7 @@ export class Grid extends Component {
       this.props.finish();
     } else {
       this.state.game.switchPlayer();
-      this.state.game.makeUCompMove();
+      this.state.game.makeCompMove();
       this.setState({tiles: this.state.tiles});
       if (this.state.game.isFinished()) {
         this.props.finish();

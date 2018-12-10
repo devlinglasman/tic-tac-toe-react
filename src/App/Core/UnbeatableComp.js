@@ -2,101 +2,89 @@
 
 import {P1, P2} from '../Constants';
 
-export class UnbeatableComp {
-  pickCompTile = (board, activePlayer) => {
-    const emptyTiles = board.getEmptyTiles();
+export function pickCompTile(board, activePlayer) {
+  return maximise(board, board.getEmptyTiles(), activePlayer, true, 0);
+}
 
-    return this.maximise(board, emptyTiles, activePlayer, true, 0);
-  };
-
-  maximise = (board, emptyTiles, activePlayer, isTopLevel, depth) => {
-    let scores = [];
-    for (let i = 0; i < emptyTiles.length; i++) {
-      const nextBoard = this.simulateNextBoard(
-        board,
-        emptyTiles[i],
-        activePlayer,
-      );
-      let nextScore;
-      if (nextBoard.isFinished()) {
-        nextScore = this.scoreTerminalBoard(nextBoard, activePlayer, depth);
-      } else {
-        const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
-        nextScore = this.minimise(
-          nextBoard,
-          nextBoardEmptyTiles,
-          this.getOtherPlayer(activePlayer),
-          depth + 1,
-        );
-      }
-      scores.push(nextScore);
-    }
-    if (isTopLevel) {
-      return this.getTileOfMaxScore(emptyTiles, scores);
+export function maximise(board, emptyTiles, activePlayer, isTopLevel, depth) {
+  let scores = [];
+  for (let i = 0; i < emptyTiles.length; i++) {
+    const nextBoard = simulateNextBoard(board, emptyTiles[i], activePlayer);
+    let nextScore;
+    if (nextBoard.isFinished()) {
+      nextScore = scoreTerminalBoard(nextBoard, activePlayer, depth);
     } else {
-      return Math.max(...scores);
-    }
-  };
-
-  minimise = (board, emptyTiles, activePlayer, depth) => {
-    let scores = [];
-    for (let i = 0; i < emptyTiles.length; i++) {
-      const nextBoard = this.simulateNextBoard(
-        board,
-        emptyTiles[i],
-        activePlayer,
+      const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
+      nextScore = minimise(
+        nextBoard,
+        nextBoardEmptyTiles,
+        getOtherPlayer(activePlayer),
+        depth + 1,
       );
-      let nextScore;
-      if (nextBoard.isFinished()) {
-        nextScore = this.scoreTerminalBoard(
-          nextBoard,
-          this.getOtherPlayer(activePlayer),
-          depth,
-        );
-      } else {
-        const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
-        nextScore = this.maximise(
-          nextBoard,
-          nextBoardEmptyTiles,
-          this.getOtherPlayer(activePlayer),
-          false,
-          depth + 1,
-        );
-      }
-      scores.push(nextScore);
     }
-    return Math.min(...scores);
-  };
+    scores.push(nextScore);
+  }
+  if (isTopLevel) {
+    return getTileOfMaxScore(emptyTiles, scores);
+  } else {
+    return Math.max(...scores);
+  }
+}
 
-  simulateNextBoard = (board, move, player) => {
-    const nextBoard = board.copySelf();
-    nextBoard.placeMark(player, move);
-    return nextBoard;
-  };
-
-  scoreTerminalBoard = (board, activePlayer, depth) => {
-    if (board.isWon(activePlayer)) {
-      return 1000 - depth;
-    } else if (board.isWon(this.getOtherPlayer(activePlayer))) {
-      return depth - 1000;
+export function minimise(board, emptyTiles, activePlayer, depth) {
+  let scores = [];
+  for (let i = 0; i < emptyTiles.length; i++) {
+    const nextBoard = simulateNextBoard(board, emptyTiles[i], activePlayer);
+    let nextScore;
+    if (nextBoard.isFinished()) {
+      nextScore = scoreTerminalBoard(
+        nextBoard,
+        getOtherPlayer(activePlayer),
+        depth,
+      );
     } else {
-      return 0;
+      const nextBoardEmptyTiles = nextBoard.getEmptyTiles();
+      nextScore = maximise(
+        nextBoard,
+        nextBoardEmptyTiles,
+        getOtherPlayer(activePlayer),
+        false,
+        depth + 1,
+      );
+    }
+    scores.push(nextScore);
+  }
+  return Math.min(...scores);
+}
+
+export function simulateNextBoard(board, move, player) {
+  const nextBoard = board.copySelf();
+  nextBoard.placeMark(player, move);
+  return nextBoard;
+}
+
+export function scoreTerminalBoard(board, activePlayer, depth) {
+  if (board.isWon(activePlayer)) {
+    return 1000 - depth;
+  } else if (board.isWon(getOtherPlayer(activePlayer))) {
+    return depth - 1000;
+  } else {
+    return 0;
+  }
+}
+
+export function getTileOfMaxScore(tiles, scores) {
+  const maxScore = Math.max(...scores);
+  const indexAtMax = score => {
+    for (let i = 0; i < scores.length; i++) {
+      if (maxScore === scores[i]) {
+        return i;
+      }
     }
   };
+  return tiles[indexAtMax(scores)];
+}
 
-  getTileOfMaxScore = (tiles, scores) => {
-    const maxScore = Math.max(...scores);
-    const indexAtMax = score => {
-      for (let i = 0; i < scores.length; i++) {
-        if (maxScore === scores[i]) {
-          return i;
-        }
-      }
-    };
-    return tiles[indexAtMax(scores)];
-  };
-
-  getOtherPlayer = currentPlayer => {
-    return currentPlayer === P1 ? P2 : P1;
-  };
+export function getOtherPlayer(currentPlayer) {
+  return currentPlayer === P1 ? P2 : P1;
 }
