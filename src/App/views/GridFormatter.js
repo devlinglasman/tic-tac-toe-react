@@ -15,12 +15,19 @@ export function GridFormatter(props) {
       representedMark = 'O';
     }
 
+    let clickHandling;
+    if (actualMark === EMPTY) {
+      clickHandling = props.handleClick;
+    } else {
+      clickHandling = props.handleClickWhenTaken;
+    }
+
     return (
       <button
         className="tile"
         key={idNumber}
         value={idNumber}
-        onClick={props.handleClick}>
+        onClick={clickHandling}>
         {representedMark}
       </button>
     );

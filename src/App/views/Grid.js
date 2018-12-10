@@ -44,30 +44,42 @@ export class Grid extends Component {
     }
   };
 
+  handleClickWhenTaken = event => {
+    this.props.tileTaken();
+  };
+
   handleClick = event => {
     const tilePicked = event.target.value;
-    if (!this.state.game.isFinished()) {
-      if (this.state.game.isTileFree(tilePicked)) {
-        if (this.state.players.includes('hvh')) {
-          this.runHvHGame(tilePicked);
-        } else {
-          this.runHvUCGame(tilePicked);
-        }
-      } else {
-        this.props.tileTaken();
-      }
+    if (this.state.players.includes('hvh')) {
+      this.runHvHGame(tilePicked);
+    } else {
+      this.runHvUCGame(tilePicked);
     }
   };
 
   render() {
-    return (
-      <div>
-        <GridFormatter
-          gridSize={this.state.gridSize}
-          tiles={this.state.tiles}
-          handleClick={event => this.handleClick(event)}
-        />
-      </div>
-    );
+    if (this.state.game.isFinished()) {
+      return (
+        <div>
+          <GridFormatter
+            gridSize={this.state.gridSize}
+            tiles={this.state.tiles}
+            handleClick={Function.prototype()}
+            handleClickWhenTaken={Function.prototype()}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <GridFormatter
+            gridSize={this.state.gridSize}
+            tiles={this.state.tiles}
+            handleClick={event => this.handleClick(event)}
+            handleClickWhenTaken={event => this.handleClickWhenTaken(event)}
+          />
+        </div>
+      );
+    }
   }
 }
