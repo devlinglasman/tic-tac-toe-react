@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react';
 import {Grid} from './Grid';
-import {Game} from '../Core/Game';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 export class PlayGameView extends Component {
@@ -10,29 +9,25 @@ export class PlayGameView extends Component {
     super(props);
     this.state = {
       players: this.props.location.pathname,
-      game: new Game(3),
       isFinished: false,
       tileTaken: false,
+      gameMessage: 'Please pick a tile',
     };
   }
 
   gameMessage = () => {
-    if (!this.state.isFinished) {
-      return <p>Please select a tile</p>;
-    } else {
-      if (this.state.game.isWon()) {
-        if (this.state.game.isP1Turn) {
-          return <p>Player 1 won!</p>;
-        } else {
-          return <p>Player 2 won!</p>;
-        }
-      } else {
-        return <p>It was a tie!</p>;
-      }
-    }
+    return <p>{this.state.gameMessage}</p>;
   };
 
-  tileTaken = () => {
+  announceWin = player => {
+    this.setState({gameMessage: `Player ${player} won!`, isFinished: true});
+  };
+
+  announceTie = () => {
+    this.setState({gameMessage: 'It was a tie!', isFinished: true});
+  };
+
+  handleClickWhenTaken = () => {
     this.setState({
       tileTaken: true,
     });
@@ -71,10 +66,11 @@ export class PlayGameView extends Component {
         {this.tileTakenMessage()}
         <Grid
           players={this.state.players}
-          game={this.state.game}
           finish={this.finish}
-          tileTaken={this.tileTaken}
+          handleClickWhenTaken={this.handleClickWhenTaken}
           resetTileTaken={this.resetTileTaken}
+          announceWin={this.announceWin}
+          announceTie={this.announceTie}
         />
         {this.backToWelcome()}
       </div>

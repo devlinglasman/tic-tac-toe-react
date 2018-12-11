@@ -5,15 +5,24 @@ import {P1, P2} from '../Constants';
 import {pickCompTile} from './UnbeatableComp';
 
 export class Game {
-  constructor(gridSize) {
+  constructor(gridSize, updateBoard, announceWin, announceTie) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
     this.isP1Turn = true;
+    this.updateBoard = updateBoard;
+    this.announceWin = announceWin;
+    this.announceTie = announceTie;
   }
 
-  makeHumanMove = move => {
+  makeHumanMove(move) {
     this.board.placeMark(this.getActivePlayer(), move);
-  };
+    this.updateBoard();
+    if (this.isFinished()) {
+      this.announceResult();
+    } else {
+      this.switchPlayer();
+    }
+  }
 
   makeCompMove() {
     const tilePick = pickCompTile(
@@ -21,6 +30,14 @@ export class Game {
       this.getActivePlayer(),
     );
     this.board.placeMark(this.getActivePlayer(), tilePick);
+  }
+
+  announceResult() {
+    if (this.isWon()) {
+      this.announceWin(this.getActivePlayer());
+    } else {
+      this.announceTie();
+    }
   }
 
   isTileFree = move => {

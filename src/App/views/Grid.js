@@ -2,29 +2,17 @@
 
 import React, {Component} from 'react';
 import {GridFormatter} from './GridFormatter';
+import {Game} from '../Core/Game';
 
 export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
       players: props.players,
-      game: props.game,
-      finish: props.finish,
-      gridSize: props.game.gridSize,
-      tiles: props.game.board.tiles,
+      game: new Game(3, this.updateBoard, props.announceWin, props.announceTie),
+      update: false,
     };
   }
-
-  runHvHGame = tilePicked => {
-    this.state.game.makeHumanMove(tilePicked);
-    this.setState({tiles: this.state.tiles});
-    this.props.resetTileTaken();
-    if (this.state.game.isFinished()) {
-      this.props.finish();
-    } else {
-      this.state.game.switchPlayer();
-    }
-  };
 
   runHvUCGame = tilePicked => {
     this.state.game.makeHumanMove(tilePicked);
@@ -44,17 +32,18 @@ export class Grid extends Component {
     }
   };
 
-  handleClickWhenTaken = event => {
-    this.props.tileTaken();
+  updateBoard = () => {
+    this.setState({update: true});
+    this.props.resetTileTaken();
   };
 
   handleClick = event => {
     const tilePicked = event.target.value;
-    if (this.state.players.includes('hvh')) {
-      this.runHvHGame(tilePicked);
-    } else {
-      this.runHvUCGame(tilePicked);
-    }
+    this.state.game.makeHumanMove(tilePicked);
+  };
+
+  handleClickWhenTaken = event => {
+    this.props.handleClickWhenTaken();
   };
 
   render() {
@@ -62,8 +51,8 @@ export class Grid extends Component {
       return (
         <div>
           <GridFormatter
-            gridSize={this.state.gridSize}
-            tiles={this.state.tiles}
+            gridSize={this.state.game.gridSize}
+            tiles={this.state.game.board.tiles}
             handleClick={Function.prototype()}
             handleClickWhenTaken={Function.prototype()}
           />
@@ -73,8 +62,8 @@ export class Grid extends Component {
       return (
         <div>
           <GridFormatter
-            gridSize={this.state.gridSize}
-            tiles={this.state.tiles}
+            gridSize={this.state.game.gridSize}
+            tiles={this.state.game.board.tiles}
             handleClick={event => this.handleClick(event)}
             handleClickWhenTaken={event => this.handleClickWhenTaken(event)}
           />
