@@ -8,13 +8,7 @@ export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: new Game(3, props.gameMode, {
-        updateBoard: this.updateBoard,
-        announceWin: props.announceWin,
-        announceTie: props.announceTie,
-        turnClicksOn: this.turnClicksOn,
-        doReset: this.doReset,
-      }),
+      game: new Game(3, props.gameMode, this),
       clicksOn: false,
       update: false,
     };
@@ -44,6 +38,14 @@ export class Grid extends Component {
 
   componentDidMount = () => {
     this.state.game.run();
+  };
+
+  announceWin = player => {
+    this.props.announceWin(player);
+  };
+
+  announceTie = () => {
+    this.props.announceTie();
   };
 
   render() {

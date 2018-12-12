@@ -5,11 +5,11 @@ import {P1, P2} from '../Constants';
 import {pickCompTile} from './UnbeatableComp';
 
 export class Game {
-  constructor(gridSize, gameMode, UIFunctions) {
+  constructor(gridSize, gameMode, UI) {
     this.board = new Board(gridSize);
     this.players = this.setPlayers(gameMode);
     this.isP1Turn = true;
-    this.UIFunctions = UIFunctions;
+    this.UI = UI;
   }
 
   run() {
@@ -18,19 +18,19 @@ export class Game {
 
   playTurn(move) {
     this.board.placeMark(this.getActivePlayer().mark, move);
-    this.UIFunctions.updateBoard();
+    this.UI.updateBoard();
     if (this.isFinished()) {
-      this.UIFunctions.doReset();
+      this.UI.doReset();
       this.announceResult();
     } else {
-      this.UIFunctions.doReset();
+      this.UI.doReset();
       this.switchPlayer();
       this.getActivePlayer().getTile();
     }
   }
 
   awaitHumanInput() {
-    this.UIFunctions.turnClicksOn();
+    this.UI.turnClicksOn();
   }
 
   getCompTile() {
@@ -45,9 +45,9 @@ export class Game {
 
   announceResult() {
     if (this.isWon()) {
-      this.UIFunctions.announceWin(this.getActivePlayer().mark);
+      this.UI.announceWin(this.getActivePlayer().mark);
     } else {
-      this.UIFunctions.announceTie();
+      this.UI.announceTie();
     }
   }
 
