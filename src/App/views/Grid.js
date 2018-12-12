@@ -8,21 +8,19 @@ export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: new Game(
-        3,
-        props.gameMode,
-        this.updateBoard,
-        props.announceWin,
-        props.announceTie,
-        this.toggleInput,
-        this.doReset,
-      ),
+      game: new Game(3, props.gameMode, {
+        updateBoard: this.updateBoard,
+        announceWin: props.announceWin,
+        announceTie: props.announceTie,
+        turnClicksOn: this.turnClicksOn,
+        doReset: this.doReset,
+      }),
       clicksOn: false,
       update: false,
     };
   }
 
-  toggleInput = () => {
+  turnClicksOn = () => {
     this.setState({clicksOn: true});
   };
 
@@ -37,8 +35,7 @@ export class Grid extends Component {
   };
 
   handleClick = event => {
-    const tilePicked = event.target.value;
-    this.state.game.playTurn(tilePicked);
+    this.state.game.playTurn(event.target.value);
   };
 
   handleClickWhenTaken = event => {
@@ -54,7 +51,7 @@ export class Grid extends Component {
       return (
         <div>
           <GridFormatter
-            gridSize={this.state.game.gridSize}
+            gridSize={this.state.game.board.gridSize}
             tiles={this.state.game.board.tiles}
             handleClick={event => this.handleClick(event)}
             handleClickWhenTaken={event => this.handleClickWhenTaken(event)}
@@ -65,7 +62,7 @@ export class Grid extends Component {
       return (
         <div>
           <GridFormatter
-            gridSize={this.state.game.gridSize}
+            gridSize={this.state.game.board.gridSize}
             tiles={this.state.game.board.tiles}
             handleClick={Function.prototype()}
             handleClickWhenTaken={Function.prototype()}

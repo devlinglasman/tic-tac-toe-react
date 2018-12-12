@@ -8,7 +8,6 @@ export class PlayGameView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameMode: this.props.location.pathname,
       isFinished: false,
       tileTaken: false,
       gameMessage: 'Please pick a tile',
@@ -65,7 +64,7 @@ export class PlayGameView extends Component {
         {this.gameMessage()}
         {this.tileTakenMessage()}
         <Grid
-          gameMode={this.state.gameMode}
+          gameMode={this.props.location.pathname}
           handleClickWhenTaken={this.handleClickWhenTaken}
           resetTileTaken={this.resetTileTaken}
           announceWin={this.announceWin}

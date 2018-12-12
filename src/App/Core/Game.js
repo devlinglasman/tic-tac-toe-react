@@ -5,49 +5,15 @@ import {P1, P2} from '../Constants';
 import {pickCompTile} from './UnbeatableComp';
 
 export class Game {
-  constructor(
-    gridSize,
-    gameMode,
-    updateBoard,
-    announceWin,
-    announceTie,
-    toggleInput,
-    doReset,
-  ) {
-    this.gridSize = gridSize;
+  constructor(gridSize, gameMode, UIFunctions) {
     this.board = new Board(gridSize);
-    this.gameMode = gameMode;
-    this.players = this.setPlayers();
+    this.players = this.setPlayers(gameMode);
     this.isP1Turn = true;
-    this.updateBoard = updateBoard;
-    this.announceWin = announceWin;
-    this.announceTie = announceTie;
-    this.toggleInput = toggleInput;
-    this.doReset = doReset;
-  }
-
-  setPlayers() {
-    if (this.gameMode.includes('hvh')) {
-      return {
-        playerOne: {mark: P1, getTile: () => this.awaitHumanInput()},
-        playerTwo: {mark: P2, getTile: () => this.awaitHumanInput()},
-      };
-    } else if (this.gameMode.includes('hvc')) {
-      return {
-        playerOne: {mark: P1, getTile: () => this.awaitHumanInput()},
-        playerTwo: {mark: P2, getTile: () => this.makeCompMove()},
-      };
-    } else if (this.gameMode.includes('cvh')) {
-      return {
-        playerOne: {mark: P1, getTile: () => this.makeCompMove()},
-        playerTwo: {mark: P2, getTile: () => this.awaitHumanInput()},
-      };
-    } else {
-      return {
-        playerOne: {mark: P1, getTile: () => this.makeCompMove()},
-        playerTwo: {mark: P2, getTile: () => this.makeCompMove()},
-      };
-    }
+    this.updateBoard = UIFunctions.updateBoard;
+    this.announceWin = UIFunctions.announceWin;
+    this.announceTie = UIFunctions.announceTie;
+    this.turnClicksOn = UIFunctions.turnClicksOn;
+    this.doReset = UIFunctions.doReset;
   }
 
   run() {
@@ -58,6 +24,7 @@ export class Game {
     this.board.placeMark(this.getActivePlayer().mark, move);
     this.updateBoard();
     if (this.isFinished()) {
+      this.doReset();
       this.announceResult();
     } else {
       this.doReset();
@@ -67,10 +34,10 @@ export class Game {
   }
 
   awaitHumanInput() {
-    this.toggleInput();
+    this.turnClicksOn();
   }
 
-  makeCompMove() {
+  getCompTile() {
     const tilePicked = pickCompTile(
       this.board.copySelf(),
       this.getActivePlayer().mark,
@@ -111,4 +78,25 @@ export class Game {
       return this.players.playerTwo;
     }
   };
+
+  setPlayers(gameMode) {
+    let players = {
+      playerOne: {mark: P1},
+      playerTwo: {mark: P2},
+    };
+    if (gameMode.includes('hvh')) {
+      players.playerOne.getTile = () => this.awaitHumanInput();
+      players.playerTwo.getTile = () => this.awaitHumanInput();
+    } else if (gameMode.includes('hvc')) {
+      players.playerOne.getTile = () => this.awaitHumanInput();
+      players.playerTwo.getTile = () => this.getCompTile();
+    } else if (gameMode.includes('cvh')) {
+      players.playerOne.getTile = () => this.getCompTile();
+      players.playerTwo.getTile = () => this.awaitHumanInput();
+    } else {
+      players.playerOne.getTile = () => this.getCompTile();
+      players.playerTwo.getTile = () => this.getCompTile();
+    }
+    return players;
+  }
 }
