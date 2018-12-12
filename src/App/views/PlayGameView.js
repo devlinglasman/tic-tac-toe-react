@@ -66,7 +66,6 @@ export class PlayGameView extends Component {
         {this.tileTakenMessage()}
         <Grid
           players={this.state.players}
-          finish={this.finish}
           handleClickWhenTaken={this.handleClickWhenTaken}
           resetTileTaken={this.resetTileTaken}
           announceWin={this.announceWin}

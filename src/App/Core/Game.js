@@ -5,31 +5,48 @@ import {P1, P2} from '../Constants';
 import {pickCompTile} from './UnbeatableComp';
 
 export class Game {
-  constructor(gridSize, updateBoard, announceWin, announceTie) {
+  constructor(
+    gridSize,
+    gameMode,
+    updateBoard,
+    announceWin,
+    announceTie,
+    switchClicks,
+  ) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
+    this.gameMode = gameMode;
     this.isP1Turn = true;
     this.updateBoard = updateBoard;
     this.announceWin = announceWin;
     this.announceTie = announceTie;
+    this.switchClicks = switchClicks;
   }
 
-  makeHumanMove(move) {
+  run() {
+    this.switchClicks();
+  }
+
+  makeMove(move) {
+    this.switchClicks();
     this.board.placeMark(this.getActivePlayer(), move);
     this.updateBoard();
     if (this.isFinished()) {
       this.announceResult();
     } else {
+      this.updateBoard();
       this.switchPlayer();
+      this.switchClicks();
     }
   }
 
   makeCompMove() {
-    const tilePick = pickCompTile(
+    const tilePicked = pickCompTile(
       this.board.copySelf(),
       this.getActivePlayer(),
     );
-    this.board.placeMark(this.getActivePlayer(), tilePick);
+    this.board.placeMark(tilePicked);
+    this.runTurnEnd();
   }
 
   announceResult() {
