@@ -10,29 +10,35 @@ export class Grid extends Component {
     this.state = {
       game: new Game(
         3,
-        props.players,
+        props.gameMode,
         this.updateBoard,
         props.announceWin,
         props.announceTie,
-        this.switchClicks,
+        this.toggleInput,
+        this.doReset,
       ),
       clicksOn: false,
       update: false,
     };
   }
 
-  switchClicks = () => {
-    this.setState(prevState => ({clicksOn: !prevState.clicksOn}));
+  toggleInput = () => {
+    this.setState({clicksOn: true});
   };
 
   updateBoard = () => {
-    this.setState(prevState => ({update: !prevState.update}));
+    this.setState({update: true});
     this.props.resetTileTaken();
+  };
+
+  doReset = () => {
+    this.setState({clicksOn: false});
+    this.setState({update: false});
   };
 
   handleClick = event => {
     const tilePicked = event.target.value;
-    this.state.game.makeMove(tilePicked);
+    this.state.game.playTurn(tilePicked);
   };
 
   handleClickWhenTaken = event => {

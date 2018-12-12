@@ -11,47 +11,78 @@ export class Game {
     updateBoard,
     announceWin,
     announceTie,
-    switchClicks,
+    toggleInput,
+    doReset,
   ) {
     this.gridSize = gridSize;
     this.board = new Board(gridSize);
     this.gameMode = gameMode;
+    this.players = this.setPlayers();
     this.isP1Turn = true;
     this.updateBoard = updateBoard;
     this.announceWin = announceWin;
     this.announceTie = announceTie;
-    this.switchClicks = switchClicks;
+    this.toggleInput = toggleInput;
+    this.doReset = doReset;
+  }
+
+  setPlayers() {
+    if (this.gameMode.includes('hvh')) {
+      return {
+        playerOne: {mark: P1, getTile: () => this.awaitHumanInput()},
+        playerTwo: {mark: P2, getTile: () => this.awaitHumanInput()},
+      };
+    } else if (this.gameMode.includes('hvc')) {
+      return {
+        playerOne: {mark: P1, getTile: () => this.awaitHumanInput()},
+        playerTwo: {mark: P2, getTile: () => this.makeCompMove()},
+      };
+    } else if (this.gameMode.includes('cvh')) {
+      return {
+        playerOne: {mark: P1, getTile: () => this.makeCompMove()},
+        playerTwo: {mark: P2, getTile: () => this.awaitHumanInput()},
+      };
+    } else {
+      return {
+        playerOne: {mark: P1, getTile: () => this.makeCompMove()},
+        playerTwo: {mark: P2, getTile: () => this.makeCompMove()},
+      };
+    }
   }
 
   run() {
-    this.switchClicks();
+    this.getActivePlayer().getTile();
   }
 
-  makeMove(move) {
-    this.switchClicks();
-    this.board.placeMark(this.getActivePlayer(), move);
+  playTurn(move) {
+    this.board.placeMark(this.getActivePlayer().mark, move);
     this.updateBoard();
     if (this.isFinished()) {
       this.announceResult();
     } else {
-      this.updateBoard();
+      this.doReset();
       this.switchPlayer();
-      this.switchClicks();
+      this.getActivePlayer().getTile();
     }
+  }
+
+  awaitHumanInput() {
+    this.toggleInput();
   }
 
   makeCompMove() {
     const tilePicked = pickCompTile(
       this.board.copySelf(),
-      this.getActivePlayer(),
+      this.getActivePlayer().mark,
     );
-    this.board.placeMark(tilePicked);
-    this.runTurnEnd();
+    setTimeout(() => {
+      this.playTurn(tilePicked);
+    }, 1000);
   }
 
   announceResult() {
     if (this.isWon()) {
-      this.announceWin(this.getActivePlayer());
+      this.announceWin(this.getActivePlayer().mark);
     } else {
       this.announceTie();
     }
@@ -75,17 +106,9 @@ export class Game {
 
   getActivePlayer = () => {
     if (this.isP1Turn) {
-      return P1;
+      return this.players.playerOne;
     } else {
-      return P2;
-    }
-  };
-
-  getPassivePlayer = () => {
-    if (this.isP1Turn) {
-      return P2;
-    } else {
-      return P1;
+      return this.players.playerTwo;
     }
   };
 }
