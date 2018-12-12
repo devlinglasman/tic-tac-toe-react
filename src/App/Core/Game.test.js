@@ -83,15 +83,13 @@ describe('Game', () => {
 });
 
 function makeGame(gridSize) {
-  return new Game(
-    gridSize,
-    '/hvh',
-    () => {},
-    () => {},
-    () => {},
-    () => {},
-    () => {},
-  );
+  return new Game(gridSize, '/hvh', {
+    updateBoard: () => {},
+    announceWin: () => {},
+    announceTie: () => {},
+    turnClicksOn: () => {},
+    doReset: () => {},
+  });
 }
 
 const gridWithP1Mark = [

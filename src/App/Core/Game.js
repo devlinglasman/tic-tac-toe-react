@@ -9,11 +9,7 @@ export class Game {
     this.board = new Board(gridSize);
     this.players = this.setPlayers(gameMode);
     this.isP1Turn = true;
-    this.updateBoard = UIFunctions.updateBoard;
-    this.announceWin = UIFunctions.announceWin;
-    this.announceTie = UIFunctions.announceTie;
-    this.turnClicksOn = UIFunctions.turnClicksOn;
-    this.doReset = UIFunctions.doReset;
+    this.UIFunctions = UIFunctions;
   }
 
   run() {
@@ -22,19 +18,19 @@ export class Game {
 
   playTurn(move) {
     this.board.placeMark(this.getActivePlayer().mark, move);
-    this.updateBoard();
+    this.UIFunctions.updateBoard();
     if (this.isFinished()) {
-      this.doReset();
+      this.UIFunctions.doReset();
       this.announceResult();
     } else {
-      this.doReset();
+      this.UIFunctions.doReset();
       this.switchPlayer();
       this.getActivePlayer().getTile();
     }
   }
 
   awaitHumanInput() {
-    this.turnClicksOn();
+    this.UIFunctions.turnClicksOn();
   }
 
   getCompTile() {
@@ -49,9 +45,9 @@ export class Game {
 
   announceResult() {
     if (this.isWon()) {
-      this.announceWin(this.getActivePlayer().mark);
+      this.UIFunctions.announceWin(this.getActivePlayer().mark);
     } else {
-      this.announceTie();
+      this.UIFunctions.announceTie();
     }
   }
 
