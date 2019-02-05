@@ -3,8 +3,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import {Switch, BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {PlayGameView} from './Views/PlayGameView';
-import {WelcomeView} from './Views/WelcomeView';
+import {PlayGameView} from './views/PlayGameView';
+import {WelcomeView} from './views/WelcomeView';
 
 class App extends Component {
   render() {
